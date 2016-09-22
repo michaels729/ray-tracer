@@ -8,7 +8,7 @@
 #include <iostream>
 #include <math.h>
 #include "Matrix.h"
-#include "../geo/Vector.h"
+#include "Vector.h"
 using std::cout;
 
 Matrix::Matrix(): Matrix(1) {
