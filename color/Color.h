@@ -13,8 +13,8 @@ public:
   float r, g, b;
   Color(float r, float g, float b);
 
-  Color operator+(Color c);
-  Color operator-(Color c);
+  Color operator+(Color &c);
+  Color operator-(Color &c);
   Color operator*(float n);
   Color operator/(float n);
 };

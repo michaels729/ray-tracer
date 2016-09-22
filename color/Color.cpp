@@ -9,11 +9,11 @@
 
 Color::Color(float r, float g, float b): r(r), g(g), b(b) {}
 
-Color Color::operator +(Color c) {
+Color Color::operator +(Color &c) {
   return Color(r + c.r, g + c.g, b + c.b);
 }
 
-Color Color::operator -(Color c) {
+Color Color::operator -(Color &c) {
   return Color(r - c.r, g - c.g, b - c.b);
 }
 
