@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <math.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Matrix.h"
 #include "Vector.h"
 using std::cout;
@@ -87,6 +90,26 @@ Matrix Matrix::transpose() {
   return Matrix(transpose);
 }
 
+Matrix Matrix::inverse() {
+  float flatMat[16];
+  int i = 0;
+  for (int x = 0; x < 4; ++x) {
+    for (int y = 0; y < 4; ++y) {
+      flatMat[i] = mat[x][y];
+      i++;
+    }
+  }
+  glm::mat4 glmMatInv = glm::transpose(glm::inverse(glm::transpose(
+      glm::make_mat4(flatMat))));
+  float inv[4][4];
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      inv[i][j] = glmMatInv[i][j];
+    }
+  }
+  return Matrix(inv);
+}
+
 Matrix Matrix::rotate(const float degrees, const Vector &axis) {
   const float radians = degrees * pi / 180;
   const float cosRadians = cos(radians);
@@ -110,7 +133,7 @@ Matrix Matrix::scale(const float& sx, const float& sy, const float& sz) {
 
 int main() {
   cout << "Original Matrix:\n";
-  Matrix matrix = Matrix(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+  Matrix matrix = Matrix(1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 4, 2, 3);
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
       cout << matrix.mat[i][j] << ' ';
@@ -120,13 +143,6 @@ int main() {
   cout << '\n';
 
   cout << "Testing Matrix Multiply via squaring:\n";
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << matrix.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
   Matrix product = matrix * matrix;
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -137,17 +153,20 @@ int main() {
   cout << '\n';
 
   cout << "Testing Transpose:\n";
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << matrix.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
   Matrix trans = matrix.transpose();
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
       cout << trans.mat[i][j] << ' ';
+    }
+    cout << '\n';
+  }
+  cout << '\n';
+
+  cout << "Testing inverse:\n";
+  Matrix inv = matrix.inverse();
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      cout << inv.mat[i][j] << ' ';
     }
     cout << '\n';
   }

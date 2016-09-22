@@ -1,6 +1,6 @@
 CC=g++
 
-CFLAGS =	-O2 -g -Wall -fmessage-length=0 -std=c++11
+CFLAGS =	-O2 -g -Wall -fmessage-length=0 -std=c++11 -lGL -lglut -lGLEW
 
 OBJS =		raytracer.o Vector.o Matrix.o
 

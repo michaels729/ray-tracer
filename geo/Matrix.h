@@ -35,6 +35,7 @@ public:
   Matrix operator*(const float n);
   Matrix operator*(const Matrix &m);
   Matrix transpose();
+  Matrix inverse();
 
   static Matrix rotate(const float degrees, const Vector &axis);
   static Matrix translate(const float &tx, const float &ty, const float &tz);
