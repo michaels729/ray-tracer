@@ -14,8 +14,8 @@ public:
   Point();
   Point(float x, float y, float z);
 
-  Vector operator+(Vector v);
-  Vector operator-(Vector v);
+  Vector operator+(Vector &v);
+  Vector operator-(Vector &v);
 };
 
 #endif /* GEOM_POINT_H_ */
