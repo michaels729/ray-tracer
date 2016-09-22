@@ -10,10 +10,14 @@
 
 const float pi = 3.14159265;
 
+class Vector;
+
 class Matrix {
 public:
   float mat[4][4];
   Matrix();
+
+  Matrix(float a);
 
   Matrix(float a, float b, float c,
          float d, float e, float f,
@@ -24,12 +28,13 @@ public:
          float i, float j, float k, float l,
          float m, float n, float o, float p);
 
-  Matrix operator*(float n);
-  Matrix operator*(Matrix mat);
+  Matrix(float arr[][4]);
+
+  Matrix operator+(const Matrix &m);
+  Matrix operator-(const Matrix &m);
+  Matrix operator*(const float n);
+  Matrix operator*(const Matrix &m);
   Matrix transpose();
-  Matrix inverse();
-  float determinant();
-  Matrix adjunct();
 
   static Matrix rotate(const float degrees, const Vector &axis);
   static Matrix translate(const float &tx, const float &ty, const float &tz);
