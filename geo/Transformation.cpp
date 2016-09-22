@@ -6,3 +6,6 @@
  */
 
 #include "Transformation.h"
+
+Transformation::Transformation(Matrix m, Matrix minvt): m(m), minvt(minvt) {
+}
