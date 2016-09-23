@@ -99,8 +99,12 @@ Matrix Matrix::inverse() {
       i++;
     }
   }
-  glm::mat4 glmMatInv = glm::transpose(glm::inverse(glm::transpose(
-      glm::make_mat4(flatMat))));
+  // Even though glm uses column-major matrices instead of row-major matrices,
+  // we can still compute inverse without using transpose because
+  // transpose(inverse(M)) == inverse(transpose(M)). This means that
+  // transpose(inverse(transpose(M))) == transpose(transpose(inverse(M))), so
+  // transpose(inverse(transpose(M))) == inverse(M).
+  glm::mat4 glmMatInv = glm::inverse(glm::make_mat4(flatMat));
   float inv[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
