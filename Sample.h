@@ -8,8 +8,10 @@
 #ifndef SAMPLE_H_
 #define SAMPLE_H_
 
-struct Sample {
-  float x, y;
+class Sample {
+public:
+  int x, y;
+  Sample(int x, int y);
 };
 
 #endif /* SAMPLE_H_ */
