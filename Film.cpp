@@ -13,17 +13,17 @@
 
 Film::Film(int height, int width): height(height), width(width) {
   image = (Color**) malloc(height * sizeof(Color*));
-  for (int i = 0; i < height; ++i) {
-    image[i] = (Color*) malloc(width * sizeof(Color));
-    for (int j = 0; j < width; ++j) {
-      image[i][j] = Color(0, 0, 0);
+  for (int j = 0; j < height; ++j) {
+    image[j] = (Color*) malloc(width * sizeof(Color));
+    for (int i = 0; i < width; ++i) {
+      image[j][i] = Color(0, 0, 0);
     }
   }
 }
 
 Film::~Film() {
-  for (int i = 0; i < height; ++i) {
-    free(image[i]);
+  for (int j = 0; j < height; ++j) {
+    free(image[j]);
   }
   free(image);
 }

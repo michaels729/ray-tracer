@@ -8,7 +8,7 @@ EXECUTABLES = Film Sampler Matrix
 
 LIBS = -lpng
 
-TARGET =	raytracer
+TARGET =	RayTracer
 
 $(TARGET):	$(OBJS)
 	$(CC) -o $(TARGET) $(OBJS) $(LIBS)
