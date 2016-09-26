@@ -5,32 +5,55 @@
  *      Author: mbs729
  */
 
-#include <malloc.h>
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <FreeImage.h>
 #include "Film.h"
 #include "Sample.h"
 #include "Sampler.h"
 #include "color/Color.h"
+using std::cout;
 
 Film::Film(int height, int width): height(height), width(width) {
-  image = (Color**) malloc(height * sizeof(Color*));
-  for (int j = 0; j < height; ++j) {
-    image[j] = (Color*) malloc(width * sizeof(Color));
-    for (int i = 0; i < width; ++i) {
-      image[j][i] = Color(0, 0, 0);
-    }
+  image = new BYTE[height * width * 3];
+  for (int i = 0; i < height * width * 3; ++i) {
+    image[i] = 0;
   }
 }
 
 Film::~Film() {
-  for (int j = 0; j < height; ++j) {
-    free(image[j]);
+  delete image;
+}
+
+void Film::commit(const Sample &sample, const Color &color) {
+  int offset = (sample.y * width + sample.x) * 3;
+  image[offset + 0] = floatToHex(color.r);
+  image[offset + 1] = floatToHex(color.g);
+  image[offset + 2] = floatToHex(color.b);
+}
+
+BYTE Film::floatToHex(float f) {
+  if (f < 0.0 || f > 1.0) {
+    cout << f << " is not a valid rgb float value\n";
   }
-  free(image);
+  return (BYTE) floor(f == 1.0 ? 255 : f * 256.0);
 }
 
-void Film::commit(Sample &sample, Color &color) {
-  image[sample.y][sample.x] = color;
+void Film::writeImage(std::string fname) {
+  FreeImage_Initialise();
+  FIBITMAP* convertedImage = FreeImage_ConvertFromRawBits(
+      image, width, height, width * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
+  FreeImage_Save(FIF_PNG, convertedImage, fname.c_str(), 0);
+  FreeImage_DeInitialise();
 }
 
-void Film::writeImage() {
+void Film::printImageBuffer() {
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
+      int offset = (j * width + i) * 3;
+      cout << std::to_string(image[offset]) << ' ';
+    }
+    cout << '\n';
+  }
 }

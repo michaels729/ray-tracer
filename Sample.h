@@ -11,6 +11,7 @@
 class Sample {
 public:
   int x, y;
+  Sample();
   Sample(int x, int y);
 };
 

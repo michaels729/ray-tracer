@@ -13,11 +13,11 @@ Vector::Vector(): Vector(0, 0, 0) {}
 
 Vector::Vector(float x, float y, float z): x(x), y(y), z(z) {}
 
-Vector Vector::operator +(Vector v) {
+Vector Vector::operator +(const Vector &v) {
   return Vector(x + v.x, y + v.y, z + v.z);
 }
 
-Vector Vector::operator -(Vector v) {
+Vector Vector::operator -(const Vector &v) {
   return Vector(x - v.x, y - v.y, z - v.z);
 }
 

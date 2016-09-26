@@ -1,46 +1,51 @@
-CC=g++
+CXX =	g++
 
-CFLAGS =	-O2 -g -Wall -fmessage-length=0 -std=c++11
+CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
-OBJS =		*.o
+OBJS =	Scene.o Film.o Sampler.o Sample.o Color.o
 
-EXECUTABLES = Film Sampler Matrix
+EXECUTABLES = Scene
 
-LIBS = -lpng
+LIBS =	-lfreeimage
 
 TARGET =	RayTracer
 
+PNG = 	*.png
+
 $(TARGET):	$(OBJS)
-	$(CC) -o $(TARGET) $(OBJS) $(LIBS)
+	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
 
 all:	$(TARGET)
 
-Film:	Film.o Color.o Sampler.o Sample.o
-	$(CC) $(CFLAGS) $(LIBS) -o Film Film.o Color.o Sampler.o Sample.o
+Scene:	$(OBJS)
+	$(CXX) $(CXXFLAGS) -o Scene $(OBJS) $(LIBS)
+
+Scene.o:	Scene.cpp Scene.h
+	$(CXX) $(CXXFLAGS) -c Scene.cpp
 
 Film.o:	Film.cpp Film.h
-	$(CC) $(CFLAGS) -c Film.cpp
-
-Sampler:	Sampler.o Sample.o
-	$(CC) $(CFLAGS) -o Sampler Sampler.o Sample.o
+	$(CXX) $(CXXFLAGS) -c Film.cpp
 
 Sampler.o:	Sampler.cpp Sampler.h
-	$(CC) $(CFLAGS) -c Sampler.cpp
+	$(CXX) $(CXXFLAGS) -c Sampler.cpp
 
 Sample.o:	Sample.cpp Sample.h
-	$(CC) $(CFLAGS) -c Sample.cpp
+	$(CXX) $(CXXFLAGS) -c Sample.cpp
 
 Color.o:	color/Color.cpp color/Color.h
-	$(CC) $(CFLAGS) -c color/Color.cpp
+	$(CXX) $(CXXFLAGS) -c color/Color.cpp
 
 Matrix:	Matrix.o Vector.o
-	$(CC) $(CFLAGS) -o Matrix Matrix.o Vector.o
+	$(CXX) $(CXXFLAGS) -o Matrix Matrix.o Vector.o
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
-	$(CC) $(CFLAGS) -c geo/Matrix.cpp
+	$(CXX) $(CXXFLAGS) -c geo/Matrix.cpp
 
 Vector.o:	geo/Vector.cpp geo/Vector.h
-	$(CC) $(CFLAGS) -c geo/Vector.cpp
+	$(CXX) $(CXXFLAGS) -c geo/Vector.cpp
+
+Point.o:	geo/Point.cpp geo/Point.h
+	$(CXX) $(CXXFLAGS) -c geo/Point.cpp
 
 clean:
-	rm -f $(OBJS) $(EXECUTABLES) $(TARGET)
+	rm -f $(OBJS) $(EXECUTABLES) $(TARGET) $(PNG)

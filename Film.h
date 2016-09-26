@@ -14,14 +14,16 @@ class Color;
 
 class Film {
 private:
+  BYTE* image;
   int height, width;
-  Color **image;
+  BYTE floatToHex(float f);
 
 public:
   Film(int width, int height);
   virtual ~Film();
-  void commit(Sample &sample, Color &color);
-  void writeImage();
+  void commit(const Sample &sample, const Color &color);
+  void writeImage(std::string fname);
+  void printImageBuffer();
 };
 
 #endif /* FILM_H_ */
