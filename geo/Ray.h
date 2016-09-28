@@ -8,6 +8,7 @@
 #ifndef RAY_H_
 #define RAY_H_
 
+// It represent the ray ray(t) = pos + t*dir, where t_min <= t <= t_max
 struct Ray {
   Point pos;
   Vector dir;
