@@ -6,10 +6,13 @@
  */
 
 #include "GeometricPrimitive.h"
+#include "Transformation.h"
+#include "LocalGeo.h"
 
-GeometricPrimitive::GeometricPrimitive() {
-  // TODO Auto-generated constructor stub
-
+GeometricPrimitive::GeometricPrimitive(Transformation objToWorld,
+    Transformation worldToObj, Shape *shape, Material *material) :
+    objToWorld(objToWorld), worldToObj(worldToObj), shape(shape), material(
+        material) {
 }
 
 GeometricPrimitive::~GeometricPrimitive() {

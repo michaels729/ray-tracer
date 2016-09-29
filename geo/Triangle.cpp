@@ -7,13 +7,11 @@
 
 #include "Triangle.h"
 
-Triangle::Triangle() {
-  // TODO Auto-generated constructor stub
-
+Triangle::Triangle(const Point &vertex1, const Point &vertex2, const Point &vertex3) :
+    vertex1(vertex1), vertex2(vertex2), vertex3(vertex3) {
 }
 
 Triangle::~Triangle() {
-  // TODO Auto-generated destructor stub
 }
 
 bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) {

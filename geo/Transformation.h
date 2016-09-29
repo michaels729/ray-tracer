@@ -11,7 +11,13 @@
 class Transformation {
 public:
   Matrix m, minvt;
-  Transformation(Matrix m, Matrix minvt);
+  Transformation(Matrix m);
+
+  Point operator*(const Point &p);
+  Vector operator*(const Vector &v);
+  Normal operator*(const Normal &n);
+  Ray operator*(const Ray &r);
+  LocalGeo operator*(const LocalGeo &lg);
 };
 
 #endif /* TRANSFORMATION_H_ */

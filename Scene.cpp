@@ -36,11 +36,3 @@ void Scene::render(std::string fname) {
   }
   film.writeImage(fname);
 }
-
-int main() {
-  int height = 100, width = 100;
-  Film film = Film(height, width);
-  Scene scene = Scene(film, height, width);
-  //film.printImageBuffer();
-  scene.render("white.png");
-}

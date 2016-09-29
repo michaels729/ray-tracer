@@ -13,8 +13,10 @@ const float pi = 3.14159265;
 class Vector;
 
 class Matrix {
-public:
+private:
   float mat[4][4];
+
+public:
   Matrix();
 
   Matrix(float a);
@@ -34,6 +36,7 @@ public:
   Matrix operator-(const Matrix &m);
   Matrix operator*(const float n);
   Matrix operator*(const Matrix &m);
+  const float* operator[](int i) const;
   Matrix transpose();
   Matrix inverse();
 

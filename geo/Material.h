@@ -8,6 +8,7 @@
 #include "../color/BRDF.h"
 
 class Color;
+struct LocalGeo;
 struct BRDF;
 
 #ifndef MATERIAL_H_

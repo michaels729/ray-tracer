@@ -16,8 +16,10 @@ public:
   Point();
   Point(float x, float y, float z);
 
-  Vector operator+(const Vector &v);
-  Vector operator-(const Vector &v);
+  Point operator+(const Vector &v);
+  Point operator-(const Vector &v);
+  Vector operator -(const Point &p);
+  const float operator[](int i) const;
 };
 
 #endif /* GEOM_POINT_H_ */

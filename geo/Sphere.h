@@ -9,10 +9,15 @@
 #define SPHERE_H_
 
 #include "Shape.h"
+#include "Point.h"
 
 class Sphere: public Shape {
+private:
+  Point center;
+  float radius;
+
 public:
-  Sphere();
+  Sphere(float x, float y, float z, float radius);
   virtual ~Sphere();
   bool intersect(Ray &ray, float *thit, LocalGeo *local) override;
   bool intersectP(Ray &ray) override;

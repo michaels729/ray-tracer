@@ -19,7 +19,9 @@ public:
   Vector operator-(const Vector &v);
   Vector operator*(const float n);
   Vector operator/(const float n);
+  const float operator[](int i) const;
 
+  float dot(const Vector &v);
   Vector normalize();
 };
 

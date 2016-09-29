@@ -10,6 +10,7 @@
 
 struct BRDF {
   Color kd, ks, ka, kr;
+  float sp;
 };
 
 #endif /* BRDF_H_ */

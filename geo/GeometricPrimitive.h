@@ -10,14 +10,16 @@
 #ifndef GEOMETRICPRIMITIVE_H_
 #define GEOMETRICPRIMITIVE_H_
 
+struct LocalGeo;
+
 class GeometricPrimitive : public Primitive {
 private:
-  Transformation objToWorld, worldToObject;
+  Transformation objToWorld, worldToObj;
   Shape *shape;
   Material *material;
 
 public:
-  GeometricPrimitive();
+  GeometricPrimitive(Transformation objToWorld, Transformation worldToObj, Shape *shape, Material *material);
   virtual ~GeometricPrimitive();
   bool intersect(Ray &ray, float *thit, Intersection *in) override;
   bool intersectP(Ray &ray) override;

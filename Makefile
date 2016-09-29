@@ -2,9 +2,9 @@ CXX =	g++
 
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
-OBJS =	Scene.o Film.o Sampler.o Sample.o Color.o
+OBJS =	Scene.o Film.o Sampler.o Sample.o Color.o Matrix.o Vector.o Point.o
 
-EXECUTABLES = Scene
+EXECUTABLES = TestScene TestSampler TestMatrix
 
 LIBS =	-lfreeimage
 
@@ -17,8 +17,14 @@ $(TARGET):	$(OBJS)
 
 all:	$(TARGET)
 
-Scene:	$(OBJS)
-	$(CXX) $(CXXFLAGS) -o Scene $(OBJS) $(LIBS)
+TestScene:	Scene.o Film.o Sampler.o Sample.o Color.o
+	$(CXX) $(CXXFLAGS) -o TestScene Scene.o Film.o Sampler.o Sample.o Color.o TestScene.cpp $(LIBS)
+
+TestSampler:	Sampler.o Sample.o
+	$(CXX) $(CXXFLAGS) -o TestSampler Sampler.o Sample.o TestSampler.cpp
+
+TestMatrix:	Matrix.o Vector.o
+	$(CXX) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp
 
 Scene.o:	Scene.cpp Scene.h
 	$(CXX) $(CXXFLAGS) -c Scene.cpp
@@ -34,9 +40,6 @@ Sample.o:	Sample.cpp Sample.h
 
 Color.o:	color/Color.cpp color/Color.h
 	$(CXX) $(CXXFLAGS) -c color/Color.cpp
-
-Matrix:	Matrix.o Vector.o
-	$(CXX) $(CXXFLAGS) -o Matrix Matrix.o Vector.o
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
 	$(CXX) $(CXXFLAGS) -c geo/Matrix.cpp

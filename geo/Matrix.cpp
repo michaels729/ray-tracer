@@ -12,7 +12,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Matrix.h"
 #include "Vector.h"
-using std::cout;
 
 Matrix::Matrix(): Matrix(1) {
 }
@@ -41,7 +40,7 @@ Matrix Matrix::operator+(const Matrix &m) {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; i < 4; ++j) {
-      result[i][j] = mat[i][j] + m.mat[i][j];
+      result[i][j] = mat[i][j] + m[i][j];
     }
   }
   return Matrix(result);
@@ -51,7 +50,7 @@ Matrix Matrix::operator-(const Matrix &m) {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; i < 4; ++j) {
-      result[i][j] = mat[i][j] - m.mat[i][j];
+      result[i][j] = mat[i][j] - m[i][j];
     }
   }
   return Matrix(result);
@@ -73,11 +72,15 @@ Matrix Matrix::operator*(const Matrix &m) {
     for (int j = 0; j < 4; ++j) {
       result[i][j] = 0;
       for (int k = 0; k < 4; ++k) {
-        result[i][j] += mat[i][k] * m.mat[k][j];
+        result[i][j] += mat[i][k] * m[k][j];
       }
     }
   }
   return Matrix(result);
+}
+
+const float* Matrix::operator[](int i) const {
+  return mat[i];
 }
 
 Matrix Matrix::transpose() {
@@ -119,60 +122,25 @@ Matrix Matrix::rotate(const float degrees, const Vector &axis) {
   const float cosRadians = cos(radians);
   const float sinRadians = sin(radians);
   Matrix aaT = Matrix(axis.x * axis.x, axis.x * axis.y, axis.x * axis.z,
-      axis.x * axis.y, axis.y * axis.y, axis.y * axis.z, axis.x * axis.z,
-      axis.y * axis.z, axis.z * axis.z);
-  Matrix aStar = Matrix(0, -axis.z, axis.y, axis.z, 0, -axis.x, -axis.y, axis.x,
-      0);
+                      axis.x * axis.y, axis.y * axis.y, axis.y * axis.z,
+                      axis.x * axis.z, axis.y * axis.z, axis.z * axis.z);
+  Matrix aStar = Matrix(0, -axis.z, axis.y,
+                        axis.z, 0, -axis.x,
+                        -axis.y, axis.x, 0);
 
   return Matrix(1) * cosRadians + aaT * (1 - cosRadians) + aStar * sinRadians;
 }
 
 Matrix Matrix::translate(const float& tx, const float& ty, const float& tz) {
-  return Matrix(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
+  return Matrix(1, 0, 0, tx,
+                0, 1, 0, ty,
+                0, 0, 1, tz,
+                0, 0, 0, 1);
 }
 
 Matrix Matrix::scale(const float& sx, const float& sy, const float& sz) {
-  return Matrix(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1);
-}
-
-int main() {
-  cout << "Original Matrix:\n";
-  Matrix matrix = Matrix(1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 4, 2, 3);
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << matrix.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
-
-  cout << "Testing Matrix Multiply via squaring:\n";
-  Matrix product = matrix * matrix;
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << product.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
-
-  cout << "Testing Transpose:\n";
-  Matrix trans = matrix.transpose();
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << trans.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
-
-  cout << "Testing inverse:\n";
-  Matrix inv = matrix.inverse();
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      cout << inv.mat[i][j] << ' ';
-    }
-    cout << '\n';
-  }
-  cout << '\n';
+  return Matrix(sx, 0, 0, 0,
+                0, sy, 0, 0,
+                0, 0, sz, 0,
+                0, 0, 0, 1);
 }
