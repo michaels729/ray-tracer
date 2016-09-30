@@ -8,9 +8,9 @@
 #include "GeometricPrimitive.h"
 
 #include "../color/BRDF.h"
+#include "../color/Material.h"
 #include "Intersection.h"
 #include "LocalGeo.h"
-#include "Material.h"
 #include "Ray.h"
 #include "Shape.h"
 

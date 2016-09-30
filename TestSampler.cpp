@@ -1,5 +1,5 @@
 /*
- * Scent_test.cpp
+ * TestSampler.cpp
  *
  *  Created on: Sep 28, 2016
  *      Author: mbs729

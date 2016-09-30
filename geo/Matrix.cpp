@@ -37,7 +37,7 @@ Matrix::Matrix(float arr[][4]) :
         arr[3][0], arr[3][1], arr[3][2], arr[3][3]) {
 }
 
-Matrix Matrix::operator+(const Matrix &m) {
+Matrix Matrix::operator+(const Matrix &m) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; i < 4; ++j) {
@@ -47,7 +47,7 @@ Matrix Matrix::operator+(const Matrix &m) {
   return Matrix(result);
 }
 
-Matrix Matrix::operator-(const Matrix &m) {
+Matrix Matrix::operator-(const Matrix &m) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; i < 4; ++j) {
@@ -57,7 +57,7 @@ Matrix Matrix::operator-(const Matrix &m) {
   return Matrix(result);
 }
 
-Matrix Matrix::operator*(const float n) {
+Matrix Matrix::operator*(const float n) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; i < 4; ++j) {
@@ -67,7 +67,7 @@ Matrix Matrix::operator*(const float n) {
   return Matrix(result);
 }
 
-Matrix Matrix::operator*(const Matrix &m) {
+Matrix Matrix::operator*(const Matrix &m) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -84,7 +84,7 @@ const float* Matrix::operator[](int i) const {
   return mat[i];
 }
 
-Matrix Matrix::transpose() {
+Matrix Matrix::transpose() const {
   float transpose[4][4];
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -94,7 +94,7 @@ Matrix Matrix::transpose() {
   return Matrix(transpose);
 }
 
-Matrix Matrix::inverse() {
+Matrix Matrix::inverse() const {
   float flatMat[16];
   int i = 0;
   for (int x = 0; x < 4; ++x) {

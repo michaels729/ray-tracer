@@ -7,6 +7,11 @@
 
 #include "Transformation.h"
 
+#include "LocalGeo.h"
+#include "Point.h"
+#include "Ray.h"
+#include "Vector.h"
+
 Transformation::Transformation(Matrix m) :
     m(m), minvt(m.inverse()) {
 }

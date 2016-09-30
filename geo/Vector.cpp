@@ -20,19 +20,26 @@ Vector::Vector(float x, float y, float z) :
     x(x), y(y), z(z) {
 }
 
-Vector Vector::operator +(const Vector &v) {
+Vector Vector::operator +(const Vector &v) const {
   return Vector(x + v.x, y + v.y, z + v.z);
 }
 
-Vector Vector::operator -(const Vector &v) {
+Vector Vector::operator -(const Vector &v) const {
   return Vector(x - v.x, y - v.y, z - v.z);
 }
 
-Vector Vector::operator *(const float n) {
+Vector Vector::operator *(const Vector& v) const {
+  Vector u = *this;
+  return Vector(u.y * v.z - u.z * v.y,
+                u.z * v.x - u.x * v.z,
+                u.x * v.y - u.y * v.x);
+}
+
+Vector Vector::operator *(const float n) const {
   return Vector(x * n, y * n, z * n);
 }
 
-Vector Vector::operator /(const float n) {
+Vector Vector::operator /(const float n) const {
   return Vector(x / n, y / n, z / n);
 }
 
@@ -53,7 +60,7 @@ const float Vector::operator [](int i) const {
   }
 }
 
-float Vector::dot(const Vector& v) {
+float Vector::dot(const Vector& v) const {
   return x * v.x + y * v.y + z * v.z;
 }
 

@@ -8,20 +8,28 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-class Vector;
+#include "geo/Point.h"
+#include "geo/Vector.h"
+
+struct Ray;
+class Sample;
+
+const float PI = 3.14159265;
 
 class Camera {
 private:
-  Vector eye, center, upinit;
-  float fovy;
+  const Point eye, center;
+  const Vector upinit;
+  const float fovy;
+  const Vector w, u, v;
 public:
   Camera(float lookfromx, float lookfromy, float lookfromz,
       float lookatx, float lookaty, float lookatz,
       float upx, float upy, float upz,
       float fovy);
-  Camera(Vector eye, Vector center, Vector upinit, float fovy);
+  Camera(Point eye, Point center, Vector upinit, float fovy);
   virtual ~Camera();
-  void generateRay(const Sample &sample, Ray *ray);
+  void generateRay(const Sample &sample, Ray *ray, int height, int width) const;
 };
 
 #endif /* CAMERA_H_ */

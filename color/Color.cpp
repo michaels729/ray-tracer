@@ -7,6 +7,10 @@
 
 #include "Color.h"
 
+Color::Color() :
+    Color(0, 0, 0) {
+}
+
 Color::Color(float r, float g, float b) :
     r(r), g(g), b(b) {
 }

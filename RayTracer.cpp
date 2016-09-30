@@ -20,13 +20,20 @@ RayTracer::RayTracer(int maxDepth, Primitive &primitive) :
 RayTracer::~RayTracer() {
 }
 
-void RayTracer::trace(const Ray &ray, int depth, Color *color) {
+void RayTracer::trace(const Ray &ray, Color *color) const {
+  trace(ray, 0, color);
+}
+
+void RayTracer::trace(const Ray &ray, int depth, Color *color) const {
   float thit;
   Intersection in;
   BRDF brdf = { Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), 0 };
   if (depth >= maxDepth || !primitive.intersect(ray, &thit, &in)) {
     color->setColor(0, 0, 0);
+    return;
   }
+  // temp code
+  color->setColor(0, 0.5, 1);
   in.primitive->getBRDF(in.localGeo, &brdf);
 
 //  if (brdf.kr > 0) {

@@ -5,31 +5,29 @@
  *      Author: mbs729
  */
 
+#ifndef SCENE_H_
+#define SCENE_H_
+
 #include <string>
 
 #include "Sampler.h"
 
-#ifndef SCENE_H_
-#define SCENE_H_
-
+class Camera;
 class Film;
-class Sample;
-class Point;
+class RayTracer;
 
 class Scene {
 private:
+  const Camera &camera;
+  const RayTracer &rayTracer;
   Film &film;
-  //  Point &eye;
-  //  Sample &cornerUpLeft, &cornerUpRight, &cornerBottomLeft, &cornerBottomRight;
   int height, width;
   Sampler sampler;
 
 public:
-  Scene(Film &film, int height, int width);
+  Scene(const Camera &camera, const RayTracer &rayTracer, Film &film,
+      int height, int width);
   virtual ~Scene();
-//  Scene(Sampler &sampler, Film &film, Point &eye, Sample &cornerUpLeft,
-//      Sample &cornerUpRight, Sample &cornerBottomLeft, Sample &cornerBottomRight,
-//      int height, int width);
   void render(std::string fname);
 };
 

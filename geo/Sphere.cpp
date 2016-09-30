@@ -11,11 +11,15 @@
 #include <algorithm>
 
 #include "LocalGeo.h"
+#include "Normal.h"
 #include "Ray.h"
-#include "Vector.h"
 
 Sphere::Sphere(float x, float y, float z, float radius) :
     center(Point(x, y, z)), radius(radius) {
+}
+
+Sphere::Sphere(Point center, float radius) :
+    center(center), radius(radius) {
 }
 
 Sphere::~Sphere() {

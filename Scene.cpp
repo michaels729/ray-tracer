@@ -8,19 +8,19 @@
 #include "Scene.h"
 
 #include "color/Color.h"
+#include "Camera.cpp"
+#include "Camera.h"
 #include "Film.h"
+#include "geo/Point.h"
+#include "geo/Ray.h"
+#include "geo/Vector.h"
+#include "RayTracer.h"
 #include "Sample.h"
 
-//Scene::Scene(Sampler &sampler, Film &film, Point &eye, Sample &cornerUpLeft,
-//    Sample &cornerUpRight, Sample &cornerBottomLeft, Sample &cornerBottomRight,
-//    int height, int width) :
-//    sampler(sampler), film(film), eye(eye), cornerUpLeft(cornerUpLeft), cornerUpRight(
-//        cornerUpRight), cornerBottomLeft(cornerBottomLeft), cornerBottomRight(
-//        cornerBottomRight), height(height), width(width) {
-//}
-
-Scene::Scene(Film &film, int height, int width):
-    film(film), height(height), width(width), sampler(Sampler(height, width)) {
+Scene::Scene(const Camera &camera, const RayTracer &raytracer, Film &film,
+    int height, int width) :
+    camera(camera), rayTracer(rayTracer), film(film), height(height), width(
+        width), sampler(Sampler(height, width)) {
 }
 
 Scene::~Scene() {
@@ -28,9 +28,13 @@ Scene::~Scene() {
 
 void Scene::render(std::string fname) {
   Sample sample;
-  Color mockColor = Color(.5, .5, .5);
   while (sampler.getSample(&sample)) {
-    film.commit(sample, mockColor);
+    Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
+    camera.generateRay(sample, &ray, height, width);
+
+    Color color;
+    rayTracer.trace(ray, &color);
+    film.commit(sample, color);
   }
   film.writeImage(fname);
 }

@@ -2,9 +2,9 @@ CXX =	g++
 
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
-OBJS =	RayTracer.o Sphere.o Scene.o Film.o Sampler.o Sample.o Color.o Matrix.o Vector.o Point.o
+OBJS =	RayTracer.o Camera.o Sphere.o Scene.o Film.o Sampler.o Sample.o Material.o Color.o Transformation.o Matrix.o Vector.o Point.o
 
-EXECUTABLES = TestScene TestSampler TestMatrix
+EXECUTABLES = TestSampler TestMatrix
 
 LIBS =	-lfreeimage
 
@@ -17,8 +17,8 @@ $(TARGET):	$(OBJS)
 
 all:	$(TARGET)
 
-TestScene:	Scene.o Film.o Sampler.o Sample.o Color.o
-	$(CXX) $(CXXFLAGS) -o TestScene Scene.o Film.o Sampler.o Sample.o Color.o TestScene.cpp $(LIBS)
+TestScene:	$(OBJS)
+	$(CXX) $(CXXFLAGS) -o TestScene $(OBJS) TestScene.cpp $(LIBS)
 
 TestSampler:	Sampler.o Sample.o
 	$(CXX) $(CXXFLAGS) -o TestSampler Sampler.o Sample.o TestSampler.cpp
@@ -28,6 +28,9 @@ TestMatrix:	Matrix.o Vector.o
 
 RayTracer.o:	RayTracer.cpp RayTracer.h
 	$(CXX) $(CXXFLAGS) -c RayTracer.cpp
+
+Camera.o:	Camera.cpp Camera.h
+	$(CXX) $(CXXFLAGS) -c Camera.cpp
 
 Sphere.o:	geo/Sphere.cpp geo/Sphere.h
 	$(CXX) $(CXXFLAGS) -c geo/Sphere.cpp
@@ -44,8 +47,17 @@ Sampler.o:	Sampler.cpp Sampler.h
 Sample.o:	Sample.cpp Sample.h
 	$(CXX) $(CXXFLAGS) -c Sample.cpp
 
+Material.o:	color/Material.cpp color/Material.h
+	$(CXX) $(CXXFLAGS) -c color/Material.cpp
+
 Color.o:	color/Color.cpp color/Color.h
 	$(CXX) $(CXXFLAGS) -c color/Color.cpp
+
+Ray.o:	geo/Ray.cpp geo/Ray.h
+	$(CXX) $(CXXFLAGS) -c geo/Ray.cpp
+
+Transformation.o:	geo/Transformation.cpp geo/Transformation.h
+	$(CXX) $(CXXFLAGS) -c geo/Transformation.cpp
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
 	$(CXX) $(CXXFLAGS) -c geo/Matrix.cpp

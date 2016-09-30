@@ -5,6 +5,9 @@
  *      Author: mbs729
  */
 
+#ifndef GEOMETRICPRIMITIVE_H_
+#define GEOMETRICPRIMITIVE_H_
+
 #include "Primitive.h"
 #include "Transformation.h"
 
@@ -13,9 +16,6 @@ struct Intersection;
 class Material;
 struct Ray;
 class Shape;
-
-#ifndef GEOMETRICPRIMITIVE_H_
-#define GEOMETRICPRIMITIVE_H_
 
 struct LocalGeo;
 

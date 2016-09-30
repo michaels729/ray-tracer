@@ -29,13 +29,13 @@ public:
 
   Matrix(float arr[][4]);
 
-  Matrix operator+(const Matrix &m);
-  Matrix operator-(const Matrix &m);
-  Matrix operator*(const float n);
-  Matrix operator*(const Matrix &m);
+  Matrix operator+(const Matrix &m) const;
+  Matrix operator-(const Matrix &m) const;
+  Matrix operator*(const float n) const;
+  Matrix operator*(const Matrix &m) const;
   const float* operator[](int i) const;
-  Matrix transpose();
-  Matrix inverse();
+  Matrix transpose() const;
+  Matrix inverse() const;
 
   static Matrix rotate(const float degrees, const Vector &axis);
   static Matrix translate(const float &tx, const float &ty, const float &tz);

@@ -15,13 +15,14 @@ public:
   Vector();
   Vector(float x, float y, float z);
 
-  Vector operator+(const Vector &v);
-  Vector operator-(const Vector &v);
-  Vector operator*(const float n);
-  Vector operator/(const float n);
+  Vector operator+(const Vector &v) const;
+  Vector operator-(const Vector &v) const;
+  Vector operator*(const Vector &v) const;
+  Vector operator*(const float n) const;
+  Vector operator/(const float n) const;
   const float operator[](int i) const;
 
-  float dot(const Vector &v);
+  float dot(const Vector &v) const;
   Vector normalize();
 };
 
