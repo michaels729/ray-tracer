@@ -26,6 +26,9 @@ TestSampler:	Sampler.o Sample.o
 TestMatrix:	Matrix.o Vector.o
 	$(CXX) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp
 
+RayTracer.o:	RayTracer.cpp RayTracer.h
+	$(CXX) $(CXXFLAGS) -c RayTracer.cpp
+
 Scene.o:	Scene.cpp Scene.h
 	$(CXX) $(CXXFLAGS) -c Scene.cpp
 

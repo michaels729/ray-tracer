@@ -6,6 +6,7 @@
  */
 
 #include "Camera.h"
+
 #include "Sample.h"
 #include "geo/Vector.h"
 #include "geo/Ray.h"

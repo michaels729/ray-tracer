@@ -25,3 +25,9 @@ Color Color::operator *(float n) {
 Color Color::operator /(float n) {
   return Color(r / n, g / n, b / n);
 }
+
+void Color::setColor(float r, float g, float b) {
+  this->r = r;
+  this->g = g;
+  this->b = b;
+}

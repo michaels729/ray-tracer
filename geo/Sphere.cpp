@@ -34,13 +34,12 @@ bool Sphere::intersect(Ray &ray, float *thit, LocalGeo *local) {
   }
   float t0 = (-b + sqrt(discriminant)) / (2 * a);
   float t1 = (-b - sqrt(discriminant)) / (2 * a);
-  float chosenT;
   if (t0 > 0 && t1 > 0) {
-    chosenT = std::min(t0, t1);
+    *thit = std::min(t0, t1);
   } else {
-    chosenT = std::max(t0, t1);
+    *thit = std::max(t0, t1);
   }
-  local->pos = ray.pos + (ray.dir * chosenT);
+  local->pos = ray.pos + (ray.dir * (*thit));
   local->normal = Normal(local->pos - center);
   return true;
 }

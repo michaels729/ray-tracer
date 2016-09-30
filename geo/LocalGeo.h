@@ -8,9 +8,9 @@
 #ifndef LOCALGEO_H_
 #define LOCALGEO_H_
 
-struct LocalGeo {
+typedef struct LocalGeo {
   Point pos;
   Normal normal;
-};
+} LocalGeo;
 
 #endif /* LOCALGEO_H_ */

@@ -8,9 +8,9 @@
 #ifndef INTERSECTION_H_
 #define INTERSECTION_H_
 
-struct Intersection {
+typedef struct Intersection {
   LocalGeo localGeo;
   Primitive *primitive;
-};
+} Intersection;
 
 #endif /* INTERSECTION_H_ */
