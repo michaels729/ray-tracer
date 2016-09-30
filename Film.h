@@ -8,6 +8,9 @@
 #ifndef FILM_H_
 #define FILM_H_
 
+#include <FreeImage.h>
+#include <string>
+
 class Sample;
 class Sampler;
 class Color;

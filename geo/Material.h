@@ -9,7 +9,6 @@
 
 class Color;
 struct LocalGeo;
-struct BRDF;
 
 #ifndef MATERIAL_H_
 #define MATERIAL_H_

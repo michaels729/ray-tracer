@@ -7,6 +7,12 @@
 
 #include "RayTracer.h"
 
+#include "color/BRDF.h"
+#include "color/Color.h"
+#include "geo/Intersection.h"
+#include "geo/LocalGeo.h"
+#include "geo/Primitive.h"
+
 RayTracer::RayTracer(int maxDepth, Primitive &primitive) :
     maxDepth(maxDepth), primitive(primitive) {
 }
@@ -17,7 +23,7 @@ RayTracer::~RayTracer() {
 void RayTracer::trace(const Ray &ray, int depth, Color *color) {
   float thit;
   Intersection in;
-  BRDF brdf;
+  BRDF brdf = { Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), 0 };
   if (depth >= maxDepth || !primitive.intersect(ray, &thit, &in)) {
     color->setColor(0, 0, 0);
   }

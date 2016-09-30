@@ -5,8 +5,8 @@
  *      Author: mbs729
  */
 
-#include <iostream>
 #include "Sampler.h"
+
 #include "Sample.h"
 
 Sampler::Sampler(int height, int width): x(0), y(0), height(height), width(width) {}

@@ -8,9 +8,13 @@
 #ifndef INTERSECTION_H_
 #define INTERSECTION_H_
 
-typedef struct Intersection {
+#include "LocalGeo.h"
+
+class Primitive;
+
+struct Intersection {
   LocalGeo localGeo;
   Primitive *primitive;
-} Intersection;
+};
 
 #endif /* INTERSECTION_H_ */

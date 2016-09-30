@@ -8,6 +8,13 @@
 #ifndef TRANSFORMATION_H_
 #define TRANSFORMATION_H_
 
+#include "Matrix.h"
+#include "Normal.h"
+
+struct LocalGeo;
+class Point;
+struct Ray;
+
 class Transformation {
 public:
   Matrix m, minvt;

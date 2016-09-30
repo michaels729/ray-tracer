@@ -5,13 +5,11 @@
  *      Author: mbs729
  */
 
-#include <string>
-#include <FreeImage.h>
-#include "Film.h"
 #include "Scene.h"
-#include "Sample.h"
-#include "geo/Point.h"
+
 #include "color/Color.h"
+#include "Film.h"
+#include "Sample.h"
 
 //Scene::Scene(Sampler &sampler, Film &film, Point &eye, Sample &cornerUpLeft,
 //    Sample &cornerUpRight, Sample &cornerBottomLeft, Sample &cornerBottomRight,

@@ -5,10 +5,11 @@
  *      Author: mbs729
  */
 
-#include <iostream>
 #include "Color.h"
 
-Color::Color(float r, float g, float b): r(r), g(g), b(b) {}
+Color::Color(float r, float g, float b) :
+    r(r), g(g), b(b) {
+}
 
 Color Color::operator +(Color &c) {
   return Color(r + c.r, g + c.g, b + c.b);

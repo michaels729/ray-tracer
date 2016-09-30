@@ -5,12 +5,13 @@
  *      Author: mbs729
  */
 
-#include <iostream>
-#include <math.h>
+#include "Matrix.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Matrix.h"
+#include <math.h>
+
 #include "Vector.h"
 
 Matrix::Matrix(): Matrix(1) {

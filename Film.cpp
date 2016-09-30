@@ -5,17 +5,18 @@
  *      Author: mbs729
  */
 
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <FreeImage.h>
 #include "Film.h"
-#include "Sample.h"
-#include "Sampler.h"
+
+#include <math.h>
+#include <iostream>
+
 #include "color/Color.h"
+#include "Sample.h"
+
 using std::cout;
 
-Film::Film(int height, int width): height(height), width(width) {
+Film::Film(int height, int width) :
+    height(height), width(width) {
   image = new BYTE[height * width * 3];
   for (int i = 0; i < height * width * 3; ++i) {
     image[i] = 0;
@@ -42,8 +43,8 @@ BYTE Film::floatToHex(float f) {
 
 void Film::writeImage(std::string fname) {
   FreeImage_Initialise();
-  FIBITMAP* convertedImage = FreeImage_ConvertFromRawBits(
-      image, width, height, width * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
+  FIBITMAP* convertedImage = FreeImage_ConvertFromRawBits(image, width, height,
+      width * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
   FreeImage_Save(FIF_PNG, convertedImage, fname.c_str(), 0);
   FreeImage_DeInitialise();
 }

@@ -7,14 +7,18 @@
 
 #ifndef PRIMITIVE_H_
 #define PRIMITIVE_H_
+struct BRDF;
+struct Intersection;
+struct LocalGeo;
+struct Ray;
 
 class Primitive {
 public:
   Primitive();
   virtual ~Primitive();
 
-  virtual bool intersect(Ray &ray, float *thit, Intersection *in) = 0;
-  virtual bool intersectP(Ray &ray) = 0;
+  virtual bool intersect(const Ray &ray, float *thit, Intersection *in) = 0;
+  virtual bool intersectP(const Ray &ray) = 0;
   virtual bool getBRDF(LocalGeo &local, BRDF *brdf) = 0;
 };
 

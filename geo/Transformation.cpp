@@ -7,7 +7,8 @@
 
 #include "Transformation.h"
 
-Transformation::Transformation(Matrix m): m(m), minvt(m.inverse()) {
+Transformation::Transformation(Matrix m) :
+    m(m), minvt(m.inverse()) {
 }
 
 Point Transformation::operator*(const Point &p) {

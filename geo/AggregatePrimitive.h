@@ -6,7 +6,13 @@
  */
 
 #include <vector>
+
 #include "Primitive.h"
+
+struct BRDF;
+struct Intersection;
+struct LocalGeo;
+struct Ray;
 
 #ifndef AGGREGATEPRIMITIVE_H_
 #define AGGREGATEPRIMITIVE_H_
@@ -18,8 +24,8 @@ private:
 public:
   AggregatePrimitive(std::vector<Primitive*> list);
   virtual ~AggregatePrimitive();
-  bool intersect(Ray &ray, float *thit, Intersection *in) override;
-  bool intersectP(Ray &ray) override;
+  bool intersect(const Ray &ray, float *thit, Intersection *in) override;
+  bool intersectP(const Ray &ray) override;
   bool getBRDF(LocalGeo &local, BRDF *brdf) override;
 };
 

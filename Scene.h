@@ -5,6 +5,8 @@
  *      Author: mbs729
  */
 
+#include <string>
+
 #include "Sampler.h"
 
 #ifndef SCENE_H_

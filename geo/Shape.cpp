@@ -12,4 +12,3 @@ Shape::Shape() {
 
 Shape::~Shape() {
 }
-

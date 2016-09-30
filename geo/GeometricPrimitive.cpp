@@ -6,8 +6,13 @@
  */
 
 #include "GeometricPrimitive.h"
-#include "Transformation.h"
+
+#include "../color/BRDF.h"
+#include "Intersection.h"
 #include "LocalGeo.h"
+#include "Material.h"
+#include "Ray.h"
+#include "Shape.h"
 
 GeometricPrimitive::GeometricPrimitive(Transformation objToWorld,
     Transformation worldToObj, Shape *shape, Material *material) :
@@ -18,7 +23,7 @@ GeometricPrimitive::GeometricPrimitive(Transformation objToWorld,
 GeometricPrimitive::~GeometricPrimitive() {
 }
 
-bool GeometricPrimitive::intersect(Ray &ray, float *thit, Intersection *in) {
+bool GeometricPrimitive::intersect(const Ray &ray, float *thit, Intersection *in) {
   Ray oray = worldToObj * ray;
   LocalGeo olocal;
   if (!shape->intersect(oray, thit, &olocal)) {
@@ -29,7 +34,7 @@ bool GeometricPrimitive::intersect(Ray &ray, float *thit, Intersection *in) {
   return true;
 }
 
-bool GeometricPrimitive::intersectP(Ray &ray) {
+bool GeometricPrimitive::intersectP(const Ray &ray) {
   Ray oray = worldToObj * ray;
   return shape->intersectP(oray);
 }

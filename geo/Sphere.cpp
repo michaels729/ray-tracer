@@ -5,9 +5,13 @@
  *      Author: mbs729
  */
 
-#include <math.h>
 #include "Sphere.h"
-#include "Point.h"
+
+#include <math.h>
+#include <algorithm>
+
+#include "LocalGeo.h"
+#include "Ray.h"
 #include "Vector.h"
 
 Sphere::Sphere(float x, float y, float z, float radius) :

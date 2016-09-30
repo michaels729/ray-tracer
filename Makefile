@@ -2,7 +2,7 @@ CXX =	g++
 
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
-OBJS =	Scene.o Film.o Sampler.o Sample.o Color.o Matrix.o Vector.o Point.o
+OBJS =	RayTracer.o Sphere.o Scene.o Film.o Sampler.o Sample.o Color.o Matrix.o Vector.o Point.o
 
 EXECUTABLES = TestScene TestSampler TestMatrix
 
@@ -28,6 +28,9 @@ TestMatrix:	Matrix.o Vector.o
 
 RayTracer.o:	RayTracer.cpp RayTracer.h
 	$(CXX) $(CXXFLAGS) -c RayTracer.cpp
+
+Sphere.o:	geo/Sphere.cpp geo/Sphere.h
+	$(CXX) $(CXXFLAGS) -c geo/Sphere.cpp
 
 Scene.o:	Scene.cpp Scene.h
 	$(CXX) $(CXXFLAGS) -c Scene.cpp

@@ -5,13 +5,6 @@
  *      Author: mbs729
  */
 
-#include "color/BRDF.h"
-#include "color/Color.h"
-#include "geo/Intersection.h"
-#include "geo/LocalGeo.h"
-#include "geo/Primitive.h"
-#include "geo/Ray.h"
-
 #ifndef RAYTRACER_H_
 #define RAYTRACER_H_
 

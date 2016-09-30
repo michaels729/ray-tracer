@@ -6,7 +6,9 @@
  */
 
 #include <iostream>
+
 #include "Matrix.h"
+
 using std::cout;
 
 int main() {

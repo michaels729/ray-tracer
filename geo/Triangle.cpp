@@ -7,7 +7,8 @@
 
 #include "Triangle.h"
 
-Triangle::Triangle(const Point &vertex1, const Point &vertex2, const Point &vertex3) :
+Triangle::Triangle(const Point &vertex1, const Point &vertex2,
+    const Point &vertex3) :
     vertex1(vertex1), vertex2(vertex2), vertex3(vertex3) {
 }
 

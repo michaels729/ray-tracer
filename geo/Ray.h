@@ -8,6 +8,9 @@
 #ifndef RAY_H_
 #define RAY_H_
 
+#include "Point.h"
+#include "Vector.h"
+
 class Point;
 class Vector;
 

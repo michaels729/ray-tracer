@@ -21,14 +21,11 @@ public:
 
   Matrix(float a);
 
-  Matrix(float a, float b, float c,
-         float d, float e, float f,
-         float g, float h, float i);
+  Matrix(float a, float b, float c, float d, float e, float f, float g, float h,
+      float i);
 
-  Matrix(float a, float b, float c, float d,
-         float e, float f, float g, float h,
-         float i, float j, float k, float l,
-         float m, float n, float o, float p);
+  Matrix(float a, float b, float c, float d, float e, float f, float g, float h,
+      float i, float j, float k, float l, float m, float n, float o, float p);
 
   Matrix(float arr[][4]);
 

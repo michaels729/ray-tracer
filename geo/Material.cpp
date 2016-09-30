@@ -6,7 +6,6 @@
  */
 
 #include "Material.h"
-#include "../color/Color.h"
 
 Material::Material(Color &kd, Color &ks, Color &ka, Color &kr) {
   constantBRDF = BRDF(kd, ks, ka, kr);

@@ -7,8 +7,9 @@
 
 #include "Vector.h"
 
-#include <iostream>
 #include <math.h>
+#include <iostream>
+
 using std::cerr;
 
 Vector::Vector() :

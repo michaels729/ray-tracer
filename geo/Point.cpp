@@ -5,14 +5,21 @@
  *      Author: mbs729
  */
 
-#include <iostream>
 #include "Point.h"
+
+#include <iostream>
+
 #include "Vector.h"
+
 using std::cerr;
 
-Point::Point(): Point(0, 0, 0) {}
+Point::Point() :
+    Point(0, 0, 0) {
+}
 
-Point::Point(float x, float y, float z): x(x), y(y), z(z) {}
+Point::Point(float x, float y, float z) :
+    x(x), y(y), z(z) {
+}
 
 Point Point::operator +(const Vector &v) {
   return Point(x + v.x, y + v.y, z + v.z);

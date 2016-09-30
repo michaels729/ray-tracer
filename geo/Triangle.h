@@ -10,6 +10,8 @@
 
 #include "Shape.h"
 
+class Point;
+
 class Triangle: public Shape {
 private:
   Point &vertex1, &vertex2, &vertex3;
