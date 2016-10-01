@@ -2,7 +2,11 @@ CXX =	g++
 
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
-OBJS =	RayTracer.o Camera.o Sphere.o Scene.o Film.o Sampler.o Sample.o Material.o Color.o Transformation.o Matrix.o Vector.o Point.o
+OBJS =	RayTracer.o Camera.o Scene.o Film.o Sampler.o Sample.o\
+Material.o Color.o\
+AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
+Sphere.o Triangle.o Shape.o\
+Transformation.o Matrix.o Normal.o Vector.o Point.o
 
 EXECUTABLES = TestSampler TestMatrix
 
@@ -32,9 +36,6 @@ RayTracer.o:	RayTracer.cpp RayTracer.h
 Camera.o:	Camera.cpp Camera.h
 	$(CXX) $(CXXFLAGS) -c Camera.cpp
 
-Sphere.o:	geo/Sphere.cpp geo/Sphere.h
-	$(CXX) $(CXXFLAGS) -c geo/Sphere.cpp
-
 Scene.o:	Scene.cpp Scene.h
 	$(CXX) $(CXXFLAGS) -c Scene.cpp
 
@@ -53,6 +54,24 @@ Material.o:	color/Material.cpp color/Material.h
 Color.o:	color/Color.cpp color/Color.h
 	$(CXX) $(CXXFLAGS) -c color/Color.cpp
 
+AggregatePrimitive.o:	geo/AggregatePrimitive.cpp geo/AggregatePrimitive.h
+	$(CXX) $(CXXFLAGS) -c geo/AggregatePrimitive.cpp
+
+GeometricPrimitive.o:	geo/GeometricPrimitive.cpp geo/GeometricPrimitive.h
+	$(CXX) $(CXXFLAGS) -c geo/GeometricPrimitive.cpp
+
+Primitive.o:	geo/Primitive.cpp geo/Primitive.h
+	$(CXX) $(CXXFLAGS) -c geo/Primitive.cpp
+
+Sphere.o:	geo/Sphere.cpp geo/Sphere.h
+	$(CXX) $(CXXFLAGS) -c geo/Sphere.cpp
+
+Triangle.o:	geo/Triangle.cpp geo/Triangle.h
+	$(CXX) $(CXXFLAGS) -c geo/Triangle.cpp
+
+Shape.o:	geo/Shape.cpp geo/Shape.h
+	$(CXX) $(CXXFLAGS) -c geo/Shape.cpp
+
 Ray.o:	geo/Ray.cpp geo/Ray.h
 	$(CXX) $(CXXFLAGS) -c geo/Ray.cpp
 
@@ -61,6 +80,9 @@ Transformation.o:	geo/Transformation.cpp geo/Transformation.h
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
 	$(CXX) $(CXXFLAGS) -c geo/Matrix.cpp
+
+Normal.o:	geo/Normal.cpp geo/Normal.h
+	$(CXX) $(CXXFLAGS) -c geo/Normal.cpp
 
 Vector.o:	geo/Vector.cpp geo/Vector.h
 	$(CXX) $(CXXFLAGS) -c geo/Vector.cpp
