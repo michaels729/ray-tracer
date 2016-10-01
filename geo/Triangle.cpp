@@ -16,7 +16,9 @@ Triangle::~Triangle() {
 }
 
 bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) {
+  return false;
 }
 
 bool Triangle::intersectP(Ray &ray) {
+  return false;
 }

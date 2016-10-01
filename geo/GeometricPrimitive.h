@@ -31,7 +31,7 @@ public:
   virtual ~GeometricPrimitive();
   bool intersect(const Ray &ray, float *thit, Intersection *in) override;
   bool intersectP(const Ray &ray) override;
-  bool getBRDF(LocalGeo &local, BRDF *brdf) override;
+  void getBRDF(LocalGeo &local, BRDF *brdf) override;
 };
 
 #endif /* GEOMETRICPRIMITIVE_H_ */

@@ -14,7 +14,7 @@ class Point;
 
 class Triangle: public Shape {
 private:
-  Point &vertex1, &vertex2, &vertex3;
+  const Point &vertex1, &vertex2, &vertex3;
 
 public:
   Triangle(const Point &vertex1, const Point &vertex2, const Point &vertex3);

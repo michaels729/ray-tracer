@@ -19,7 +19,7 @@ public:
 
   virtual bool intersect(const Ray &ray, float *thit, Intersection *in) = 0;
   virtual bool intersectP(const Ray &ray) = 0;
-  virtual bool getBRDF(LocalGeo &local, BRDF *brdf) = 0;
+  virtual void getBRDF(LocalGeo &local, BRDF *brdf) = 0;
 };
 
 #endif /* PRIMITIVE_H_ */

@@ -26,7 +26,7 @@ public:
   virtual ~AggregatePrimitive();
   bool intersect(const Ray &ray, float *thit, Intersection *in) override;
   bool intersectP(const Ray &ray) override;
-  bool getBRDF(LocalGeo &local, BRDF *brdf) override;
+  void getBRDF(LocalGeo &local, BRDF *brdf) override;
 };
 
 #endif /* AGGREGATEPRIMITIVE_H_ */

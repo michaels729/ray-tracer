@@ -13,6 +13,6 @@ Material::Material(Color &kd, Color &ks, Color &ka, Color &kr) : constantBRDF(BR
 Material::~Material() {
 }
 
-BRDF Material::getBRDF(LocalGeo &local, BRDF *brdf) {
-  return constantBRDF;
+void Material::getBRDF(LocalGeo &local, BRDF *brdf) {
+  *brdf = constantBRDF;
 }

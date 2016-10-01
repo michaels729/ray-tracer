@@ -20,7 +20,7 @@ private:
 public:
   Material(Color &kd, Color &ks, Color &ka, Color &kr);
   virtual ~Material();
-  BRDF getBRDF(LocalGeo &local, BRDF *brdf);
+  void getBRDF(LocalGeo &local, BRDF *brdf);
 };
 
 #endif /* MATERIAL_H_ */

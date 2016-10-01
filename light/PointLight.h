@@ -10,10 +10,6 @@
 
 #include "Light.h"
 
-struct LocalGeo;
-struct Ray;
-class Color;
-
 class PointLight: public Light {
 public:
   PointLight();

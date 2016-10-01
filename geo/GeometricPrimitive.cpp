@@ -39,6 +39,6 @@ bool GeometricPrimitive::intersectP(const Ray &ray) {
   return shape->intersectP(oray);
 }
 
-bool GeometricPrimitive::getBRDF(LocalGeo &local, BRDF *brdf) {
-  material->getBRDF(local, brdf);
+void GeometricPrimitive::getBRDF(LocalGeo &local, BRDF *brdf) {
+  return material->getBRDF(local, brdf);
 }

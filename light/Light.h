@@ -7,6 +7,9 @@
 
 #ifndef LIGHT_H_
 #define LIGHT_H_
+class Color;
+struct LocalGeo;
+struct Ray;
 
 class Light {
 public:

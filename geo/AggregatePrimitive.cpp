@@ -33,6 +33,6 @@ bool AggregatePrimitive::intersectP(const Ray &ray) {
   return true;
 }
 
-bool AggregatePrimitive::getBRDF(LocalGeo &local, BRDF *brdf) {
+void AggregatePrimitive::getBRDF(LocalGeo &local, BRDF *brdf) {
   exit(1);
 }
