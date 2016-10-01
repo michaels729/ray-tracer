@@ -7,7 +7,7 @@
 
 #include "Sample.h"
 
-Sample::Sample() {
+Sample::Sample() : x(0), y(0){
 }
 
 Sample::Sample(int x, int y) : x(x), y(y) {
