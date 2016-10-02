@@ -19,13 +19,13 @@ struct Ray;
 
 class AggregatePrimitive: public Primitive {
 private:
-  std::vector<Primitive*> list;
+  std::vector<Primitive*> &list;
 
 public:
-  AggregatePrimitive(std::vector<Primitive*> list);
+  AggregatePrimitive(std::vector<Primitive*> &list);
   virtual ~AggregatePrimitive();
   bool intersect(const Ray &ray, float *thit, Intersection *in) override;
-  bool intersectP(const Ray &ray) override;
+  bool intersectP(const Ray &ray) const override;
   void getBRDF(LocalGeo &local, BRDF *brdf) override;
 };
 

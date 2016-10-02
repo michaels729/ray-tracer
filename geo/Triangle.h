@@ -19,8 +19,8 @@ private:
 public:
   Triangle(const Point &vertex1, const Point &vertex2, const Point &vertex3);
   virtual ~Triangle();
-  bool intersect(Ray &ray, float *thit, LocalGeo *local) override;
-  bool intersectP(Ray &ray) override;
+  bool intersect(Ray &ray, float *thit, LocalGeo *local) const override;
+  bool intersectP(Ray &ray) const override;
 };
 
 #endif /* TRIANGLE_H_ */

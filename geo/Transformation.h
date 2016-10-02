@@ -20,11 +20,11 @@ public:
   Matrix m, minvt;
   Transformation(Matrix m);
 
-  Point operator*(const Point &p);
-  Vector operator*(const Vector &v);
-  Normal operator*(const Normal &n);
-  Ray operator*(const Ray &r);
-  LocalGeo operator*(const LocalGeo &lg);
+  Point operator*(const Point &p) const;
+  Vector operator*(const Vector &v) const;
+  Normal operator*(const Normal &n) const;
+  Ray operator*(const Ray &r) const;
+  LocalGeo operator*(const LocalGeo &lg) const;
 };
 
 #endif /* TRANSFORMATION_H_ */

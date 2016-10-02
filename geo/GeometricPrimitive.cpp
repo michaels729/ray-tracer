@@ -34,7 +34,7 @@ bool GeometricPrimitive::intersect(const Ray &ray, float *thit, Intersection *in
   return true;
 }
 
-bool GeometricPrimitive::intersectP(const Ray &ray) {
+bool GeometricPrimitive::intersectP(const Ray &ray) const {
   Ray oray = worldToObj * ray;
   return shape->intersectP(oray);
 }

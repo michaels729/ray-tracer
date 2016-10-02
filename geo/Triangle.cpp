@@ -15,10 +15,10 @@ Triangle::Triangle(const Point &vertex1, const Point &vertex2,
 Triangle::~Triangle() {
 }
 
-bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) {
+bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) const {
   return false;
 }
 
-bool Triangle::intersectP(Ray &ray) {
+bool Triangle::intersectP(Ray &ray) const {
   return false;
 }

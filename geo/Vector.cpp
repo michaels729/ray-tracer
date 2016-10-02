@@ -24,10 +24,15 @@ Vector Vector::operator +(const Vector &v) const {
   return Vector(x + v.x, y + v.y, z + v.z);
 }
 
+Vector Vector::operator -() const {
+  return Vector(-x, -y, -z);
+}
+
 Vector Vector::operator -(const Vector &v) const {
   return Vector(x - v.x, y - v.y, z - v.z);
 }
 
+// Calculates the cross product.
 Vector Vector::operator *(const Vector& v) const {
   Vector u = *this;
   return Vector(u.y * v.z - u.z * v.y,

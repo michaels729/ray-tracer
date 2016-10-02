@@ -30,6 +30,7 @@ public:
 
   Matrix operator+(const Matrix &m) const;
   Matrix operator-(const Matrix &m) const;
+  Matrix operator-() const;
   Matrix operator*(const float n) const;
   Matrix operator*(const Matrix &m) const;
   const float* operator[](int i) const;

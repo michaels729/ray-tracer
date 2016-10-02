@@ -9,11 +9,11 @@ AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
 Transformation.o Matrix.o Normal.o Vector.o Point.o
 
-EXECUTABLES = TestSampler TestMatrix TestScene
+EXECUTABLES = TestSampler TestMatrix
 
 LIBS =	-lfreeimage
 
-TARGET =	RayTracer
+TARGET =	loadscene
 
 PNG = 	*.png
 
@@ -22,8 +22,8 @@ $(TARGET):	$(OBJS)
 
 all:	$(TARGET)
 
-TestScene:	$(OBJS)
-	$(CXX) $(CXXFLAGS) -o TestScene $(OBJS) TestScene.cpp $(LIBS)
+loadscene:	$(OBJS)
+	$(CXX) $(CXXFLAGS) -o loadscene $(OBJS) loadscene.cpp $(LIBS)
 
 TestSampler:	Sampler.o Sample.o
 	$(CXX) $(CXXFLAGS) -o TestSampler Sampler.o Sample.o TestSampler.cpp

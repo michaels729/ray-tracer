@@ -57,6 +57,16 @@ Matrix Matrix::operator-(const Matrix &m) const {
   return Matrix(result);
 }
 
+Matrix Matrix::operator-() const {
+  float result[4][4];
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; i < 4; ++j) {
+      result[i][j] = -mat[i][j];
+    }
+  }
+  return Matrix(result);
+}
+
 Matrix Matrix::operator*(const float n) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {

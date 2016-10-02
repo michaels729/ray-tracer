@@ -16,7 +16,7 @@ Transformation::Transformation(Matrix m) :
     m(m), minvt(m.inverse()) {
 }
 
-Point Transformation::operator*(const Point &p) {
+Point Transformation::operator*(const Point &p) const {
   float arr[4];
   for (int j = 0; j < 4; ++j) {
     float value = 0.0;
@@ -28,7 +28,7 @@ Point Transformation::operator*(const Point &p) {
   return Point(arr[0], arr[1], arr[2]);
 }
 
-Vector Transformation::operator*(const Vector &v) {
+Vector Transformation::operator*(const Vector &v) const {
   float arr[4];
   for (int j = 0; j < 4; ++j) {
     float value = 0.0;
@@ -40,7 +40,7 @@ Vector Transformation::operator*(const Vector &v) {
   return Vector(arr[0], arr[1], arr[2]);
 }
 
-Normal Transformation::operator*(const Normal &n) {
+Normal Transformation::operator*(const Normal &n) const {
   float arr[4];
   for (int j = 0; j < 4; ++j) {
     float value = 0.0;
@@ -52,10 +52,10 @@ Normal Transformation::operator*(const Normal &n) {
   return Normal(arr[0], arr[1], arr[2]);
 }
 
-Ray Transformation::operator*(const Ray &r) {
+Ray Transformation::operator*(const Ray &r) const {
   return Ray { (*this) * r.pos, (*this) * r.dir, r.t_min, r.t_max };
 }
 
-LocalGeo Transformation::operator*(const LocalGeo &lg) {
+LocalGeo Transformation::operator*(const LocalGeo &lg) const {
   return LocalGeo { (*this) * lg.pos, (*this) * lg.normal };
 }

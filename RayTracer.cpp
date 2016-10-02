@@ -6,7 +6,7 @@
  */
 
 #include "RayTracer.h"
-
+#include <iostream>
 #include "color/BRDF.h"
 #include "color/Color.h"
 #include "geo/Intersection.h"
@@ -20,11 +20,11 @@ RayTracer::RayTracer(int maxDepth, Primitive &primitive) :
 RayTracer::~RayTracer() {
 }
 
-void RayTracer::trace(const Ray &ray, Color *color) const {
+void RayTracer::trace(const Ray &ray, Color *color) {
   trace(ray, 0, color);
 }
 
-void RayTracer::trace(const Ray &ray, int depth, Color *color) const {
+void RayTracer::trace(const Ray &ray, int depth, Color *color) {
   float thit;
   Intersection in;
   BRDF brdf = { Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), 0 };

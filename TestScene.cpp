@@ -17,20 +17,21 @@
 #include "Scene.h"
 
 int main() {
-  int height = 100, width = 100, maxDepth = 5;
+  int width = 640, height = 480, maxDepth = 5;
   Camera camera = Camera(0, -4, 4, 0, -1, 0, 0, 1, 1, 45);
+//  Camera camera = Camera(0, 0, 1, 0, 0, -1, 0, 1, 0, 45);
 
-  Sphere sphere = Sphere(0, 0, -1, 1);
+  Sphere sphere = Sphere(0, 0, 0, 1);
   Transformation objToWorld = Transformation(Matrix(1.0));
   Transformation worldToObj = Transformation(Matrix(1.0));
   Color kd, ks, ka, kr;
   Material material = Material(kd, ks, ka, kr);
   GeometricPrimitive geoPrim = GeometricPrimitive(objToWorld, worldToObj,
       &sphere, &material);
-  RayTracer raytracer = RayTracer(maxDepth, geoPrim);
+  RayTracer rayTracer = RayTracer(maxDepth, geoPrim);
 
   Film film = Film(height, width);
 
-  Scene scene = Scene(camera, raytracer, film, height, width);
-  scene.render("result1.png");
+  Scene scene = Scene(camera, rayTracer, film, height, width);
+  scene.render("test-scene.png");
 }

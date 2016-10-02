@@ -21,7 +21,7 @@ private:
   BYTE floatToHex(float f);
 
 public:
-  Film(int width, int height);
+  Film(int height, int width);
   virtual ~Film();
   void commit(const Sample &sample, const Color &color);
   void writeImage(std::string fname);

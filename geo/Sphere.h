@@ -22,8 +22,8 @@ public:
   Sphere(float x, float y, float z, float radius);
   Sphere(Point center, float radius);
   virtual ~Sphere();
-  bool intersect(Ray &ray, float *thit, LocalGeo *local) override;
-  bool intersectP(Ray &ray) override;
+  bool intersect(Ray &ray, float *thit, LocalGeo *local) const override;
+  bool intersectP(Ray &ray) const override;
 };
 
 #endif /* SPHERE_H_ */

@@ -21,17 +21,22 @@ Point::Point(float x, float y, float z) :
     x(x), y(y), z(z) {
 }
 
-Point Point::operator +(const Vector &v) {
+Point Point::operator +(const Vector &v) const {
   return Point(x + v.x, y + v.y, z + v.z);
 }
 
-Point Point::operator -(const Vector &v) {
+Point Point::operator -(const Vector &v) const {
   return Point(x - v.x, y - v.y, z - v.z);
 }
 
-Vector Point::operator -(const Point &p) {
+Vector Point::operator -(const Point &p) const {
   return Vector(x - p.x, y - p.y, z - p.z);
 }
+
+Point Point::operator -() const {
+  return Point(x, y, z);
+}
+
 
 const float Point::operator [](int i) const {
   switch (i) {

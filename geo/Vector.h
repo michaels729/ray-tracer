@@ -16,6 +16,7 @@ public:
   Vector(float x, float y, float z);
 
   Vector operator+(const Vector &v) const;
+  Vector operator-() const;
   Vector operator-(const Vector &v) const;
   Vector operator*(const Vector &v) const;
   Vector operator*(const float n) const;

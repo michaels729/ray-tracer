@@ -28,7 +28,7 @@ public:
       Shape *shape, Material *material);
   virtual ~GeometricPrimitive();
   bool intersect(const Ray &ray, float *thit, Intersection *in) override;
-  bool intersectP(const Ray &ray) override;
+  bool intersectP(const Ray &ray) const override;
   void getBRDF(LocalGeo &local, BRDF *brdf) override;
 };
 

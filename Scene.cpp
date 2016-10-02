@@ -16,8 +16,8 @@
 #include "RayTracer.h"
 #include "Sample.h"
 
-Scene::Scene(const Camera &camera, const RayTracer &raytracer, Film &film,
-    int height, int width) :
+Scene::Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int height,
+    int width) :
     camera(camera), rayTracer(rayTracer), film(film), height(height), width(
         width), sampler(Sampler(height, width)) {
 }

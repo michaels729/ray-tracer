@@ -17,16 +17,15 @@ class Film;
 class RayTracer;
 
 class Scene {
-private:
+public:
   const Camera &camera;
-  const RayTracer &rayTracer;
+  RayTracer &rayTracer;
   Film &film;
   int height, width;
   Sampler sampler;
 
-public:
-  Scene(const Camera &camera, const RayTracer &rayTracer, Film &film,
-      int height, int width);
+  Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int height,
+      int width);
   virtual ~Scene();
   void render(std::string fname);
 };

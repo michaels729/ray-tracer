@@ -9,13 +9,15 @@
 
 #include <cstdlib>
 
-AggregatePrimitive::AggregatePrimitive(std::vector<Primitive*> list) {
+AggregatePrimitive::AggregatePrimitive(std::vector<Primitive*> &list) :
+    list(list) {
 }
 
 AggregatePrimitive::~AggregatePrimitive() {
 }
 
-bool AggregatePrimitive::intersect(const Ray &ray, float *thit, Intersection *in) {
+bool AggregatePrimitive::intersect(const Ray &ray, float *thit,
+    Intersection *in) {
   for (Primitive *prim : list) {
     if (!prim->intersect(ray, thit, in)) {
       return false;
@@ -24,7 +26,7 @@ bool AggregatePrimitive::intersect(const Ray &ray, float *thit, Intersection *in
   return true;
 }
 
-bool AggregatePrimitive::intersectP(const Ray &ray) {
+bool AggregatePrimitive::intersectP(const Ray &ray) const {
   for (Primitive *prim : list) {
     if (!prim->intersectP(ray)) {
       return false;
