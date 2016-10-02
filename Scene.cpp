@@ -8,7 +8,6 @@
 #include "Scene.h"
 
 #include "color/Color.h"
-#include "Camera.cpp"
 #include "Camera.h"
 #include "Film.h"
 #include "geo/Point.h"

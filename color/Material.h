@@ -5,13 +5,12 @@
  *      Author: mbs729
  */
 
-#include "../color/BRDF.h"
-
-class Color;
-struct LocalGeo;
-
 #ifndef MATERIAL_H_
 #define MATERIAL_H_
+
+#include "BRDF.h"
+
+struct LocalGeo;
 
 class Material {
 private:

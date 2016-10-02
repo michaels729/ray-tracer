@@ -5,12 +5,11 @@
  *      Author: mbs729
  */
 
-#ifndef MATRIX_MATRIX_H_
-#define MATRIX_MATRIX_H_
+#ifndef MATRIX_H_
+#define MATRIX_H_
+class Vector;
 
 const float pi = 3.14159265;
-
-class Vector;
 
 class Matrix {
 private:
@@ -42,4 +41,4 @@ public:
   static Matrix scale(const float &sx, const float &sy, const float &sz);
 };
 
-#endif /* MATRIX_MATRIX_H_ */
+#endif /* MATRIX_H_ */

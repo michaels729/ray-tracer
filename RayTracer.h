@@ -7,13 +7,9 @@
 
 #ifndef RAYTRACER_H_
 #define RAYTRACER_H_
-
-struct BRDF;
-struct Ray;
-struct Intersection;
-struct LocalGeo;
 class Color;
 class Primitive;
+struct Ray;
 
 class RayTracer {
 private:

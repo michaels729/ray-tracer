@@ -11,9 +11,8 @@
 #include <FreeImage.h>
 #include <string>
 
-class Sample;
-class Sampler;
 class Color;
+class Sample;
 
 class Film {
 private:

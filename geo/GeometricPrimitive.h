@@ -12,12 +12,10 @@
 #include "Transformation.h"
 
 struct BRDF;
-struct Intersection;
+struct LocalGeo;
 class Material;
 struct Ray;
 class Shape;
-
-struct LocalGeo;
 
 class GeometricPrimitive: public Primitive {
 private:
