@@ -1,7 +1,7 @@
 /*
  * Camera.h
  *
- *  Created on: Sep 26, 2016
+ *  Created on: Oct 1, 2016
  *      Author: mbs729
  */
 
@@ -22,6 +22,7 @@ private:
   const Vector upinit;
   const float fovy;
   const Vector w, u, v;
+
 public:
   Camera(float lookfromx, float lookfromy, float lookfromz,
       float lookatx, float lookaty, float lookatz,

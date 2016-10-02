@@ -1,7 +1,7 @@
 /*
  * Camera.cpp
  *
- *  Created on: Sep 26, 2016
+ *  Created on: Oct 1, 2016
  *      Author: mbs729
  */
 
@@ -26,7 +26,7 @@ Camera::Camera(Point eye, Point center, Vector upinit, float fovy) :
 Camera::~Camera() {
 }
 
-void Camera::generateRay(const Sample &sample, Ray *ray, int height,
+void Camera::generateRay(const Sample& sample, Ray* ray, int height,
     int width) const {
   float fovyRad = fovy * 180 / PI;
   float fovxRad = (width / (float) height) * fovyRad;
