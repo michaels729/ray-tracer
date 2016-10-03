@@ -17,11 +17,11 @@ class Sample;
 class Film {
 private:
   BYTE* image;
-  int height, width;
+  int width, height;
   BYTE floatToHex(float f);
 
 public:
-  Film(int height, int width);
+  Film(int width, int height);
   virtual ~Film();
   void commit(const Sample &sample, const Color &color);
   void writeImage(std::string fname);

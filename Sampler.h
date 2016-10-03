@@ -12,9 +12,9 @@ class Sample;
 
 class Sampler {
 private:
-  int x, y, height, width;
+  int x, y, width, height;
 public:
-  Sampler(int height, int width);
+  Sampler(int width, int height);
   bool getSample(Sample *sample);
 };
 

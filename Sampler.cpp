@@ -9,19 +9,19 @@
 
 #include "Sample.h"
 
-Sampler::Sampler(int height, int width): x(0), y(0), height(height), width(width) {}
+Sampler::Sampler(int width, int height): x(0), y(0), width(width), height(height) {}
 
 bool Sampler::getSample(Sample *sample) {
-  if (height == 0 || width == 0 || y == height) {
+  if (height == 0 || width == 0 || x == height) {
     return false;
   }
 
   sample->x = x;
   sample->y = y;
 
-  x = (x + 1) % width;
-  if (x == 0) {
-    ++y;
+  y = (y + 1) % width;
+  if (y == 0) {
+    ++x;
   }
   return true;
 }

@@ -88,7 +88,7 @@ void loadScene(std::string file) {
       else if (!splitline[0].compare("size")) {
         width = atoi(splitline[1].c_str());
         height = atoi(splitline[2].c_str());
-        film = new Film(height, width);
+        film = new Film(width, height);
       }
       //maxdepth depth
       //  max # of bounces for ray (default 5)
@@ -350,7 +350,7 @@ void loadScene(std::string file) {
     }
     AggregatePrimitive *aggPrim = new AggregatePrimitive(primList);
     RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim);
-    Scene *scene = new Scene(*camera, *rayTracer, *film, height, width);
+    Scene *scene = new Scene(*camera, *rayTracer, *film, width, height);
     scene->render(filename);
 
     delete camera;

@@ -21,11 +21,11 @@ public:
   const Camera &camera;
   RayTracer &rayTracer;
   Film &film;
-  int height, width;
+  int width, height;
   Sampler sampler;
 
-  Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int height,
-      int width);
+  Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int width,
+      int height);
   virtual ~Scene();
   void render(std::string fname);
 };

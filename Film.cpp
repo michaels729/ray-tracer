@@ -15,10 +15,10 @@
 
 using std::cout;
 
-Film::Film(int height, int width) :
-    height(height), width(width) {
-  image = new BYTE[height * width * 3];
-  for (int i = 0; i < height * width * 3; ++i) {
+Film::Film(int width, int height) :
+    width(width), height(height) {
+  image = new BYTE[width * height * 3];
+  for (int i = 0; i < width * height * 3; ++i) {
     image[i] = 0;
   }
 }
@@ -28,10 +28,10 @@ Film::~Film() {
 }
 
 void Film::commit(const Sample &sample, const Color &color) {
-  int offset = (sample.y * width + sample.x) * 3;
-  image[offset + 0] = floatToHex(color.r);
+  int offset = ((height - sample.x) * width + sample.y) * 3;
+  image[offset + 2] = floatToHex(color.r);
   image[offset + 1] = floatToHex(color.g);
-  image[offset + 2] = floatToHex(color.b);
+  image[offset + 0] = floatToHex(color.b);
 }
 
 BYTE Film::floatToHex(float f) {
@@ -47,14 +47,4 @@ void Film::writeImage(std::string fname) {
       width * 3, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
   FreeImage_Save(FIF_PNG, convertedImage, fname.c_str(), 0);
   FreeImage_DeInitialise();
-}
-
-void Film::printImageBuffer() {
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
-      int offset = (j * width + i) * 3;
-      cout << std::to_string(image[offset]) << ' ';
-    }
-    cout << '\n';
-  }
 }

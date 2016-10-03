@@ -18,10 +18,10 @@
 
 #include <iostream>
 
-Scene::Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int height,
-    int width) :
-    camera(camera), rayTracer(rayTracer), film(film), height(height), width(
-        width), sampler(Sampler(height, width)) {
+Scene::Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int width,
+    int height) :
+    camera(camera), rayTracer(rayTracer), film(film), width(width), height(
+        height), sampler(Sampler(width, height)) {
 }
 
 Scene::~Scene() {
@@ -29,11 +29,10 @@ Scene::~Scene() {
 
 void Scene::render(std::string fname) {
   Sample sample;
-  int i = 0;
   while (sampler.getSample(&sample)) {
-    std::cout << ++i << '\n';
+    std::cout << '(' << sample.y << ", " << sample.x << ")\n";
     Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
-    camera.generateRay(sample, &ray, height, width);
+    camera.generateRay(sample, &ray, width, height);
 
     Color color;
     rayTracer.trace(ray, &color);

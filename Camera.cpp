@@ -26,16 +26,16 @@ Camera::Camera(Point eye, Point center, Vector upinit, float fovy) :
 Camera::~Camera() {
 }
 
-void Camera::generateRay(const Sample &sample, Ray *ray, int height,
-    int width) const {
+void Camera::generateRay(const Sample &sample, Ray *ray, int width,
+    int height) const {
   float fovyRad = fovy * PI / 180;
 
   float tanFovyDiv2 = tan(fovyRad / 2);
   float tanFovxDiv2 = tanFovyDiv2 * (width / (float) height);
 
-  float alpha = tanFovxDiv2 * (sample.x - ((float) width / 2))
+  float alpha = tanFovxDiv2 * (sample.y - ((float) width / 2))
       / ((float) width / 2);
-  float beta = tanFovyDiv2 * (((float) height / 2) - sample.y)
+  float beta = tanFovyDiv2 * (((float) height / 2) - sample.x)
       / ((float) height / 2);
 
   ray->pos = eye;

@@ -30,7 +30,7 @@ public:
       float fovy);
   Camera(Point eye, Point center, Vector upinit, float fovy);
   virtual ~Camera();
-  void generateRay(const Sample &sample, Ray *ray, int height, int width) const;
+  void generateRay(const Sample &sample, Ray *ray, int width, int height) const;
 };
 
 #endif /* CAMERA_H_ */
