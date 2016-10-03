@@ -40,7 +40,7 @@ Matrix::Matrix(float arr[][4]) :
 Matrix Matrix::operator+(const Matrix &m) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
-    for (int j = 0; i < 4; ++j) {
+    for (int j = 0; j < 4; ++j) {
       result[i][j] = mat[i][j] + m[i][j];
     }
   }
@@ -50,7 +50,7 @@ Matrix Matrix::operator+(const Matrix &m) const {
 Matrix Matrix::operator-(const Matrix &m) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
-    for (int j = 0; i < 4; ++j) {
+    for (int j = 0; j < 4; ++j) {
       result[i][j] = mat[i][j] - m[i][j];
     }
   }
@@ -60,7 +60,7 @@ Matrix Matrix::operator-(const Matrix &m) const {
 Matrix Matrix::operator-() const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
-    for (int j = 0; i < 4; ++j) {
+    for (int j = 0; j < 4; ++j) {
       result[i][j] = -mat[i][j];
     }
   }
@@ -70,8 +70,8 @@ Matrix Matrix::operator-() const {
 Matrix Matrix::operator*(const float n) const {
   float result[4][4];
   for (int i = 0; i < 4; ++i) {
-    for (int j = 0; i < 4; ++j) {
-      result[i][j] = result[i][j] * n;
+    for (int j = 0; j < 4; ++j) {
+      result[i][j] = mat[i][j] * n;
     }
   }
   return Matrix(result);

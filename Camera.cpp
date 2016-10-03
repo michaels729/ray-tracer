@@ -39,5 +39,5 @@ void Camera::generateRay(const Sample &sample, Ray *ray, int height,
       / ((float) height / 2);
 
   ray->pos = eye;
-  ray->dir = u * alpha + v * beta - w;
+  ray->dir = (u * alpha + v * beta - w).normalize();
 }

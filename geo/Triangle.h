@@ -14,10 +14,10 @@ class Point;
 
 class Triangle: public Shape {
 private:
-  const Point &vertex1, &vertex2, &vertex3;
+  const Point *vertex1, *vertex2, *vertex3;
 
 public:
-  Triangle(const Point &vertex1, const Point &vertex2, const Point &vertex3);
+  Triangle(const Point *vertex1, const Point *vertex2, const Point *vertex3);
   virtual ~Triangle();
   bool intersect(Ray &ray, float *thit, LocalGeo *local) const override;
   bool intersectP(Ray &ray) const override;

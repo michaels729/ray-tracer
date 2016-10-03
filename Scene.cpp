@@ -16,6 +16,8 @@
 #include "RayTracer.h"
 #include "Sample.h"
 
+#include <iostream>
+
 Scene::Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int height,
     int width) :
     camera(camera), rayTracer(rayTracer), film(film), height(height), width(
@@ -27,7 +29,9 @@ Scene::~Scene() {
 
 void Scene::render(std::string fname) {
   Sample sample;
+  int i = 0;
   while (sampler.getSample(&sample)) {
+    std::cout << ++i << '\n';
     Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
     camera.generateRay(sample, &ray, height, width);
 

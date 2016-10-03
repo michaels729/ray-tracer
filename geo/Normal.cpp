@@ -20,10 +20,10 @@ Normal::Normal(const Vector &v) :
   Normal(v.x, v.y, v.z) {
 }
 
-Normal Normal::operator +(const Vector &v) {
+Normal Normal::operator +(const Vector &v) const {
   return Vector::operator+(v).normalize();
 }
 
-Normal Normal::operator -(const Vector &v) {
+Normal Normal::operator -(const Vector &v) const {
   return Vector::operator-(v).normalize();
 }

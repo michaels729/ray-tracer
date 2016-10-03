@@ -24,7 +24,7 @@ public:
   const float operator[](int i) const;
 
   float dot(const Vector &v) const;
-  Vector normalize();
+  Vector normalize() const;
 };
 
 #endif /* GEOM_VECTOR_H_ */

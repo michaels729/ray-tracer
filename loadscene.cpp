@@ -17,9 +17,15 @@
 #include "geo/Point.h"
 #include "geo/Sphere.h"
 #include "geo/Transformation.h"
+#include "geo/Triangle.h"
 #include "geo/Vector.h"
 #include "RayTracer.h"
 #include "Scene.h"
+
+void rightMultiply(const Matrix & M, std::stack<Matrix> &transfstack) {
+  Matrix &T = transfstack.top();
+  T = T * M;
+}
 
 void loadScene(std::string file) {
 
@@ -33,12 +39,18 @@ void loadScene(std::string file) {
   Camera *camera;
   // Initialize Film;
   Film *film;
+  // Initialize list of vertices
+  std::vector<Point*> vertices;
+  // Initialize list of shapes
+  std::vector<Shape*> shapeList;
+  // Initialize list of materials
+  std::vector<Material*> materialList;
   // Initialize list to hold primitives
   std::vector<Primitive*> primList;
-  // Initialize ambient; Default: (r, g, b) = (.2, .2, .2)
+  // Initialize global ambient; Default: (r, g, b) = (.2, .2, .2)
   Color ka = Color(.2, .2, .2);
-  // Initialize object-specific diffuse (kd), specular (ks), and reflection (kr)
-  Color kd, ks, kr;
+  // Initialize emissive (ke), diffuse (kd), specular (ks)
+  Color ke, kd, ks;
   // Initialize shininess
   float shininess;
 
@@ -93,45 +105,53 @@ void loadScene(std::string file) {
       //  speciﬁes the camera in the standard way, as in homework 2.
       else if (!splitline[0].compare("camera")) {
         // lookfrom:
-        Point eyeinit = Point(atof(splitline[1].c_str()),
-            atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+        float lookfromx = atof(splitline[1].c_str());
+        float lookfromy = atof(splitline[2].c_str());
+        float lookfromz = atof(splitline[3].c_str());
         // lookat:
-        Point lookat = Point(atof(splitline[4].c_str()),
-            atof(splitline[5].c_str()), atof(splitline[6].c_str()));
+        float lookatx = atof(splitline[4].c_str());
+        float lookaty = atof(splitline[5].c_str());
+        float lookatz = atof(splitline[6].c_str());
         // up:
-        Vector upinit = Vector(atof(splitline[7].c_str()),
-            atof(splitline[8].c_str()), atof(splitline[9].c_str()));
+        float upx = atof(splitline[7].c_str());
+        float upy = atof(splitline[8].c_str());
+        float upz = atof(splitline[9].c_str());
         // fovy:
         float fovy = atof(splitline[10].c_str());
-        camera = new Camera(eyeinit, lookat, upinit, fovy);
+        camera = new Camera(lookfromx, lookfromy, lookfromz,
+                            lookatx, lookaty, lookatz,
+                            upx, upy, upz,
+                            fovy);
       }
 
       //sphere x y z radius
       //  Deﬁnes a sphere with a given position and radius.
       else if (!splitline[0].compare("sphere")) {
+        // Create new sphere:
+        //   Store 4 numbers
         float x = atof(splitline[1].c_str());
         float y = atof(splitline[2].c_str());
         float z = atof(splitline[3].c_str());
         float r = atof(splitline[4].c_str());
-        Sphere sphere = Sphere(x, y, z, r);
-        Material material = Material(kd, ks, ka, kr);
-        Primitive *prim = new GeometricPrimitive(
-            Transformation(transfstack.top()),
-            Transformation(transfstack.top()),
-            &sphere, &material);
-        primList.push_back(prim);
-        // Create new sphere:
-        //   Store 4 numbers
         //   Store current property values
+        Sphere *sphere = new Sphere(x, y, z, r);
+        Material *material = new Material(ka, ke, kd, ks, shininess);
         //   Store current top of matrix stack
+        Matrix objToWorldMat = transfstack.top();
+        Transformation objToWorld = Transformation(objToWorldMat);
+        Transformation worldToObj = Transformation(objToWorldMat.inverse());
+        GeometricPrimitive *prim = new GeometricPrimitive(
+            objToWorld, worldToObj,
+            sphere, material);
+        shapeList.push_back(sphere);
+        materialList.push_back(material);
+        primList.push_back(prim);
       }
       //maxverts number
       //  Deﬁnes a maximum number of vertices for later triangle speciﬁcations. 
       //  It must be set before vertices are deﬁned.
       else if (!splitline[0].compare("maxverts")) {
-        // Care if you want
-        // Here, either declare array size
-        // Or you can just use a STL vector, in which case you can ignore this
+        // Using an STL vector, so ignoring this
       }
       //maxvertnorms number
       //  Deﬁnes a maximum number of vertices with normals for later speciﬁcations.
@@ -143,10 +163,11 @@ void loadScene(std::string file) {
       //  Deﬁnes a vertex at the given location.
       //  The vertex is put into a pile, starting to be numbered at 0.
       else if (!splitline[0].compare("vertex")) {
-        // x: atof(splitline[1].c_str()),
-        // y: atof(splitline[2].c_str()),
-        // z: atof(splitline[3].c_str()));
-        // Create a new vertex with these 3 values, store in some array
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
+        Point *vertex = new Point(x, y , z);
+        vertices.push_back(vertex);
       }
       //vertexnormal x y z nx ny nz
       //  Similar to the above, but deﬁne a surface normal with each vertex.
@@ -166,14 +187,28 @@ void loadScene(std::string file) {
       //  the vertex command). The vertices are assumed to be speciﬁed in counter-clockwise order. Your code
       //  should internally compute a face normal for this triangle.
       else if (!splitline[0].compare("tri")) {
-        // v1: atof(splitline[1].c_str())
-        // v2: atof(splitline[2].c_str())
-        // v3: atof(splitline[3].c_str())
         // Create new triangle:
         //   Store pointer to array of vertices
         //   Store 3 integers to index into array
+        int v1 = atoi(splitline[1].c_str());
+        int v2 = atoi(splitline[2].c_str());
+        int v3 = atoi(splitline[3].c_str());
         //   Store current property values
+        Point *ver1 = vertices[v1];
+        Point *ver2 = vertices[v2];
+        Point *ver3 = vertices[v3];
+        Triangle *tri = new Triangle(ver1, ver2, ver3);
+        Material *material = new Material(ka, ke, kd, ks, shininess);
         //   Store current top of matrix stack
+        Matrix objToWorldMat = transfstack.top();
+        Transformation objToWorld = Transformation(objToWorldMat);
+        Transformation worldToObj = Transformation(objToWorldMat.inverse());
+        GeometricPrimitive *prim = new GeometricPrimitive(
+            objToWorld, worldToObj,
+            tri, material);
+        shapeList.push_back(tri);
+        materialList.push_back(material);
+        primList.push_back(prim);
       }
       //trinormal v1 v2 v3
       //  Same as above but for vertices speciﬁed with normals.
@@ -194,34 +229,38 @@ void loadScene(std::string file) {
       //translate x y z
       //  A translation 3-vector
       else if (!splitline[0].compare("translate")) {
-        // x: atof(splitline[1].c_str())
-        // y: atof(splitline[2].c_str())
-        // z: atof(splitline[3].c_str())
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
         // Update top of matrix stack
+        rightMultiply(Matrix::translate(x, y, z), transfstack);
       }
       //rotate x y z angle
       //  Rotate by angle (in degrees) about the given axis as in OpenGL.
       else if (!splitline[0].compare("rotate")) {
-        // x: atof(splitline[1].c_str())
-        // y: atof(splitline[2].c_str())
-        // z: atof(splitline[3].c_str())
-        // angle: atof(splitline[4].c_str())
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
+        float angleDegrees = atof(splitline[4].c_str());
+        Vector axis = Vector(x, y, z);
         // Update top of matrix stack
+        rightMultiply(Matrix::rotate(angleDegrees, axis), transfstack);
       }
       //scale x y z
       //  Scale by the corresponding amount in each axis (a non-uniform scaling).
       else if (!splitline[0].compare("scale")) {
-        // x: atof(splitline[1].c_str())
-        // y: atof(splitline[2].c_str())
-        // z: atof(splitline[3].c_str())
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
         // Update top of matrix stack
+        rightMultiply(Matrix::scale(x, y, z), transfstack);
       }
       //pushTransform
       //  Push the current modeling transform on the stack as in OpenGL. 
       //  You might want to do pushTransform immediately after setting 
       //   the camera to preserve the “identity” transformation.
       else if (!splitline[0].compare("pushTransform")) {
-        //mst.push();
+        transfstack.push(transfstack.top());
       }
       //popTransform
       //  Pop the current transform from the stack as in OpenGL. 
@@ -230,7 +269,11 @@ void loadScene(std::string file) {
       //  (assuming the initial camera transformation is on the stack as 
       //  discussed above).
       else if (!splitline[0].compare("popTransform")) {
-        //mst.pop();
+        if (transfstack.size() <= 1) {
+          std::cerr << "Stack has no elements.  Cannot Pop\n";
+        } else {
+          transfstack.pop();
+        }
       }
 
       //directional x y z r g b
@@ -300,7 +343,7 @@ void loadScene(std::string file) {
         float r = atof(splitline[1].c_str());
         float g = atof(splitline[2].c_str());
         float b = atof(splitline[3].c_str());
-        kr = Color(r, g, b);
+        ke = Color(r, g, b);
       } else {
         std::cerr << "Unknown command: " << splitline[0] << std::endl;
       }
@@ -309,16 +352,26 @@ void loadScene(std::string file) {
     RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim);
     Scene *scene = new Scene(*camera, *rayTracer, *film, height, width);
     scene->render(filename);
+
+    delete camera;
+    delete film;
     delete aggPrim;
+    for (Primitive *prim : primList) {
+      delete prim;
+    }
+    for (Material *material : materialList) {
+      delete material;
+    }
+    for (Shape *shape : shapeList) {
+      delete shape;
+    }
+    for (Point *vertex : vertices) {
+      delete vertex;
+    }
     delete rayTracer;
     delete scene;
     inpfile.close();
   }
-  for (Primitive *prim : primList) {
-    delete prim;
-  }
-  delete camera;
-  delete film;
 }
 
 int main(int argc, char *argv[]) {

@@ -1,6 +1,6 @@
 CXX =	g++
 
-CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
+CXXFLAGS =	-g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
 OBJS =	RayTracer.o Camera.o Scene.o Film.o Sampler.o Sample.o\
 Material.o Color.o\

@@ -69,7 +69,7 @@ float Vector::dot(const Vector& v) const {
   return x * v.x + y * v.y + z * v.z;
 }
 
-Vector Vector::normalize() {
+Vector Vector::normalize() const {
   float dividend = sqrt(x * x + y * y + z * z);
   if (dividend == 0) {
     return Vector();

@@ -24,7 +24,7 @@ Film::Film(int height, int width) :
 }
 
 Film::~Film() {
-  delete image;
+  delete[] image;
 }
 
 void Film::commit(const Sample &sample, const Color &color) {

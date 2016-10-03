@@ -11,8 +11,8 @@
 #include "Color.h"
 
 struct BRDF {
-  Color kd, ks, ka, kr;
-  float sp;
+  Color ka, ke, kd, ks;
+  float shininess;
 };
 
 #endif /* BRDF_H_ */
