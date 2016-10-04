@@ -37,15 +37,24 @@ bool Sphere::intersect(Ray &ray, float *thit, LocalGeo *local) const {
   float b = 2 * (ray.dir).dot(positionDiff);
   float c = positionDiff.dot(positionDiff) - radius * radius;
   float discriminant = b * b - 4 * a * c;
+
+  // Failed to intersect. sqrt(discriminant) is imaginary.
   if (discriminant < 0) {
     return false;
   }
   float t0 = (-b + sqrt(discriminant)) / (2 * a);
   float t1 = (-b - sqrt(discriminant)) / (2 * a);
   if (t0 > 0 && t1 > 0) {
+    // Pick the closer hit
     *thit = std::min(t0, t1);
-  } else {
+  } else if ((t0 > 0 && t1 <= 0) || (t0 <= 0 && t1 > 0)) {
+    // Hit a point in front of the eye and another point behind the eye,
+    // so pick the one in front of they eye
     *thit = std::max(t0, t1);
+  } else {
+    // Hit at 0 or negative value (behind eye),
+    // so return false because we can't render
+    return false;
   }
   local->pos = ray.pos + (ray.dir * (*thit));
   local->normal = Normal(local->pos - center);
@@ -57,5 +66,8 @@ bool Sphere::intersectP(Ray &ray) const {
   Vector positionDiff = ray.pos - center;
   float b = 2 * (ray.dir).dot(positionDiff);
   float c = positionDiff.dot(positionDiff) - radius * radius;
+
+  // If discriminant is negative (meaning sqrt(discriminant) is imaginary),
+  // then failed to intersect.
   return b * b - 4 * a * c >= 0;
 }
