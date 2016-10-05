@@ -8,13 +8,20 @@
 #ifndef DIRECTIONALLIGHT_H_
 #define DIRECTIONALLIGHT_H_
 
+#include "../color/Color.h"
+#include "../geo/Vector.h"
 #include "Light.h"
 
 class DirectionalLight: public Light {
+private:
+  Vector dir;
+  Color color;
+
 public:
-  DirectionalLight();
+  DirectionalLight(float x, float y, float z, float r, float g, float b);
   virtual ~DirectionalLight();
-  void generateLightRay(const LocalGeo &local, Ray *lray, Color *lcolor) override;
+  void generateLightRay(const LocalGeo &local, Ray *lray, Color *lcolor)
+      override;
 };
 
 #endif /* DIRECTIONALLIGHT_H_ */

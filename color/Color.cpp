@@ -27,6 +27,10 @@ Color Color::operator *(float n) {
   return Color(r * n, g * n, b * n);
 }
 
+Color Color::operator *(Color &c) {
+  return Color(r * c.r, g * c.g, b * c.b);
+}
+
 Color Color::operator /(float n) {
   return Color(r / n, g / n, b / n);
 }

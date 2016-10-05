@@ -17,7 +17,8 @@ private:
   BRDF constantBRDF;
 
 public:
-  Material(Color ka, Color ke, Color kd, Color ks, float shininess);
+  Material(Color ka, Color ke, Color kd, Color ks, float shininess,
+      Attenuation atten);
   virtual ~Material();
   void getBRDF(LocalGeo &local, BRDF *brdf);
 };

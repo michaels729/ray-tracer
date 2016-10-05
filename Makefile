@@ -4,7 +4,7 @@ CXXFLAGS =	-g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
 
 OBJS =	RayTracer.o Camera.o Scene.o Film.o Sampler.o Sample.o\
 Material.o Color.o\
-DirectionalLight.o PointLight.o Light.o\
+Attenuation.o DirectionalLight.o PointLight.o Light.o\
 AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
 Transformation.o Matrix.o Normal.o Vector.o Point.o
@@ -54,6 +54,9 @@ Material.o:	color/Material.cpp color/Material.h
 
 Color.o:	color/Color.cpp color/Color.h
 	$(CXX) $(CXXFLAGS) -c color/Color.cpp
+
+Attenuation.o:	light/Attenuation.cpp light/Attenuation.h
+	$(CXX) $(CXXFLAGS) -c light/Attenuation.cpp
 
 DirectionalLight.o:	light/DirectionalLight.cpp light/DirectionalLight.h
 	$(CXX) $(CXXFLAGS) -c light/DirectionalLight.cpp

@@ -7,8 +7,9 @@
 
 #include "Material.h"
 
-Material::Material(Color ka, Color ke, Color kd, Color ks, float shininess) :
-    constantBRDF(BRDF { ka, ke, kd, ks, shininess }) {
+Material::Material(Color ka, Color ke, Color kd, Color ks, float shininess,
+    Attenuation atten) :
+    constantBRDF(BRDF { ka, ke, kd, ks, shininess, atten }) {
 }
 
 Material::~Material() {

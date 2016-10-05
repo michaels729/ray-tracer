@@ -19,6 +19,10 @@
 #include "geo/Transformation.h"
 #include "geo/Triangle.h"
 #include "geo/Vector.h"
+#include "light/Attenuation.h"
+#include "light/DirectionalLight.h"
+#include "light/PointLight.h"
+#include "light/Light.h"
 #include "RayTracer.h"
 #include "Scene.h"
 
@@ -45,14 +49,20 @@ void loadScene(std::string file) {
   std::vector<Shape*> shapeList;
   // Initialize list of materials
   std::vector<Material*> materialList;
+  // Initialize list of lights
+  std::vector<Light*> lights;
   // Initialize list to hold primitives
   std::vector<Primitive*> primList;
+  // Initialize global ambient; Default: (r, g, b) = (1.0, 0.0, 0.0)
+  Attenuation attenuation = Attenuation(1.0, 0.0, 0.0);
   // Initialize global ambient; Default: (r, g, b) = (.2, .2, .2)
   Color ka = Color(.2, .2, .2);
   // Initialize emissive (ke), diffuse (kd), specular (ks)
   Color ke, kd, ks;
   // Initialize shininess
   float shininess;
+  // Need the Eye position for both the camera and the ray tracer.
+  Point eyePos;
 
   std::ifstream inpfile(file.c_str());
   if (!inpfile.is_open()) {
@@ -118,6 +128,7 @@ void loadScene(std::string file) {
         float upz = atof(splitline[9].c_str());
         // fovy:
         float fovy = atof(splitline[10].c_str());
+        eyePos = Point(lookfromx, lookfromy, lookfromz);
         camera = new Camera(lookfromx, lookfromy, lookfromz,
                             lookatx, lookaty, lookatz,
                             upx, upy, upz,
@@ -135,7 +146,7 @@ void loadScene(std::string file) {
         float r = atof(splitline[4].c_str());
         //   Store current property values
         Sphere *sphere = new Sphere(x, y, z, r);
-        Material *material = new Material(ka, ke, kd, ks, shininess);
+        Material *material = new Material(ka, ke, kd, ks, shininess, attenuation);
         //   Store current top of matrix stack
         Matrix objToWorldMat = transfstack.top();
         Transformation objToWorld = Transformation(objToWorldMat);
@@ -198,7 +209,7 @@ void loadScene(std::string file) {
         Point *ver2 = vertices[v2];
         Point *ver3 = vertices[v3];
         Triangle *tri = new Triangle(ver1, ver2, ver3);
-        Material *material = new Material(ka, ke, kd, ks, shininess);
+        Material *material = new Material(ka, ke, kd, ks, shininess, attenuation);
         //   Store current top of matrix stack
         Matrix objToWorldMat = transfstack.top();
         Transformation objToWorld = Transformation(objToWorldMat);
@@ -279,32 +290,37 @@ void loadScene(std::string file) {
       //directional x y z r g b
       //  The direction to the light source, and the color, as in OpenGL.
       else if (!splitline[0].compare("directional")) {
-        // x: atof(splitline[1].c_str()),
-        // y: atof(splitline[2].c_str()),
-        // z: atof(splitline[3].c_str()));
-        // r: atof(splitline[4].c_str()),
-        // g: atof(splitline[5].c_str()),
-        // b: atof(splitline[6].c_str()));
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
+        float r = atof(splitline[4].c_str());
+        float g = atof(splitline[5].c_str());
+        float b = atof(splitline[6].c_str());
         // add light to scene...
+        DirectionalLight *l = new DirectionalLight(x, y, z, r, g, b);
+        lights.push_back(l);
       }
       //point x y z r g b
       //  The location of a point source and the color, as in OpenGL.
       else if (!splitline[0].compare("point")) {
-        // x: atof(splitline[1].c_str()),
-        // y: atof(splitline[2].c_str()),
-        // z: atof(splitline[3].c_str()));
-        // r: atof(splitline[4].c_str()),
-        // g: atof(splitline[5].c_str()),
-        // b: atof(splitline[6].c_str()));
+        float x = atof(splitline[1].c_str());
+        float y = atof(splitline[2].c_str());
+        float z = atof(splitline[3].c_str());
+        float r = atof(splitline[4].c_str());
+        float g = atof(splitline[5].c_str());
+        float b = atof(splitline[6].c_str());
         // add light to scene...
+        PointLight *l = new PointLight(x, y, z, r, g, b);
+        lights.push_back(l);
       }
       //attenuation const linear quadratic
       //  Sets the constant, linear and quadratic attenuations 
       //  (default 1,0,0) as in OpenGL.
       else if (!splitline[0].compare("attenuation")) {
-        // const: atof(splitline[1].c_str())
-        // linear: atof(splitline[2].c_str())
-        // quadratic: atof(splitline[3].c_str())
+        float constant = atof(splitline[1].c_str());
+        float linear = atof(splitline[2].c_str());
+        float quadratic = atof(splitline[3].c_str());
+        attenuation = { constant, linear, quadratic };
       }
       //ambient r g b
       //  The global ambient color to be added for each object 
@@ -349,7 +365,7 @@ void loadScene(std::string file) {
       }
     }
     AggregatePrimitive *aggPrim = new AggregatePrimitive(primList);
-    RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim);
+    RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim, lights, eyePos);
     Scene *scene = new Scene(*camera, *rayTracer, *film, width, height);
     scene->render(filename);
 
@@ -358,6 +374,9 @@ void loadScene(std::string file) {
     delete aggPrim;
     for (Primitive *prim : primList) {
       delete prim;
+    }
+    for (Light *light : lights) {
+      delete light;
     }
     for (Material *material : materialList) {
       delete material;

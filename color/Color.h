@@ -17,6 +17,7 @@ public:
   Color operator+(Color &c);
   Color operator-(Color &c);
   Color operator*(float n);
+  Color operator*(Color &c);
   Color operator/(float n);
   void setColor(float r, float g, float b);
 };
