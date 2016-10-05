@@ -20,6 +20,10 @@ Vector::Vector(float x, float y, float z) :
     x(x), y(y), z(z) {
 }
 
+Vector::Vector(const Vector &v) :
+    x(v.x), y(v.y), z(v.z) {
+}
+
 Vector Vector::operator +(const Vector &v) const {
   return Vector(x + v.x, y + v.y, z + v.z);
 }
@@ -72,7 +76,7 @@ float Vector::dot(const Vector& v) const {
 Vector Vector::normalize() const {
   float dividend = sqrt(x * x + y * y + z * z);
   if (dividend == 0) {
-    return Vector();
+    return Vector(0, 0, 0);
   }
   return Vector(x / dividend, y / dividend, z / dividend);
 }

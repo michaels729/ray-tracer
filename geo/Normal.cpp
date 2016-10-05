@@ -12,8 +12,7 @@ Normal::Normal() :
 }
 
 Normal::Normal(float x, float y, float z) :
-    Vector(x, y, z) {
-  normalize();
+    Vector(Vector(x, y, z).normalize()) {
 }
 
 Normal::Normal(const Vector &v) :

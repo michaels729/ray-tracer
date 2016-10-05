@@ -10,8 +10,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <math.h>
+#include <cmath>
 
+#include "Point.h"
 #include "Vector.h"
 
 Matrix::Matrix(): Matrix(1) {
@@ -75,6 +76,30 @@ Matrix Matrix::operator*(const float n) const {
     }
   }
   return Matrix(result);
+}
+
+Point Matrix::operator *(const Point& p) const {
+  float arr[4];
+  for (int i = 0; i < 4; ++i) {
+    float value = 0;
+    for (int j = 0; j < 4; ++j) {
+      value += mat[i][j] * p[j];
+    }
+    arr[i] = value;
+  }
+  return Point(arr[0], arr[1], arr[2]);
+}
+
+Vector Matrix::operator *(const Vector& v) const {
+  float arr[4];
+  for (int i = 0; i < 4; ++i) {
+    float value = 0;
+    for (int j = 0; j < 4; ++j) {
+      value += mat[i][j] * v[j];
+    }
+    arr[i] = value;
+  }
+  return Vector(arr[0], arr[1], arr[2]);
 }
 
 Matrix Matrix::operator*(const Matrix &m) const {

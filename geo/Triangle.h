@@ -8,6 +8,7 @@
 #ifndef TRIANGLE_H_
 #define TRIANGLE_H_
 
+#include "Normal.h"
 #include "Shape.h"
 
 class Point;
@@ -15,6 +16,7 @@ class Point;
 class Triangle: public Shape {
 private:
   const Point *vertex1, *vertex2, *vertex3;
+  const Normal n;
 
 public:
   Triangle(const Point *vertex1, const Point *vertex2, const Point *vertex3);

@@ -7,6 +7,7 @@
 
 #ifndef MATRIX_H_
 #define MATRIX_H_
+class Point;
 class Vector;
 
 const float pi = 3.14159265;
@@ -32,6 +33,8 @@ public:
   Matrix operator-(const Matrix &m) const;
   Matrix operator-() const;
   Matrix operator*(const float n) const;
+  Point operator*(const Point &p) const;
+  Vector operator*(const Vector &v) const;
   Matrix operator*(const Matrix &m) const;
   const float* operator[](int i) const;
   Matrix transpose() const;

@@ -14,8 +14,6 @@
 struct Ray;
 class Sample;
 
-const float PI = 3.14159265;
-
 class Camera {
 private:
   const Point eye, center;
@@ -24,11 +22,9 @@ private:
   const Vector w, u, v;
 
 public:
-  Camera(float lookfromx, float lookfromy, float lookfromz,
-      float lookatx, float lookaty, float lookatz,
-      float upx, float upy, float upz,
+  Camera(float lookfromx, float lookfromy, float lookfromz, float lookatx,
+      float lookaty, float lookatz, float upx, float upy, float upz,
       float fovy);
-  Camera(Point eye, Point center, Vector upinit, float fovy);
   virtual ~Camera();
   void generateRay(const Sample &sample, Ray *ray, int width, int height) const;
 };

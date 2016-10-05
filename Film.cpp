@@ -28,7 +28,7 @@ Film::~Film() {
 }
 
 void Film::commit(const Sample &sample, const Color &color) {
-  int offset = ((height - sample.x) * width + sample.y) * 3;
+  int offset = ((height - sample.x - 1) * width + sample.y) * 3;
   image[offset + 2] = floatToHex(color.r);
   image[offset + 1] = floatToHex(color.g);
   image[offset + 0] = floatToHex(color.b);

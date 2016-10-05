@@ -14,13 +14,10 @@
 
 Camera::Camera(float lookfromx, float lookfromy, float lookfromz, float lookatx,
     float lookaty, float lookatz, float upx, float upy, float upz, float fovy) :
-    Camera(Point(lookfromx, lookfromy, lookfromz),
-        Point(lookatx, lookaty, lookatz), Vector(upx, upy, upz), fovy) {
-}
-
-Camera::Camera(Point eye, Point center, Vector upinit, float fovy) :
-    eye(eye), center(center), upinit(upinit), fovy(fovy), w(
-        (eye - center).normalize()), u((upinit * w).normalize()), v(w * u) {
+    eye(Point(lookfromx, lookfromy, lookfromz)), center(
+        Point(lookatx, lookaty, lookatz)), upinit(Vector(upx, upy, upz)), fovy(
+        fovy), w((eye - center).normalize()), u((upinit * w).normalize()), v(
+        w * u) {
 }
 
 Camera::~Camera() {
@@ -28,14 +25,14 @@ Camera::~Camera() {
 
 void Camera::generateRay(const Sample &sample, Ray *ray, int width,
     int height) const {
-  float fovyRad = fovy * PI / 180;
+  float fovyRad = fovy * M_PI / 180;
 
   float tanFovyDiv2 = tan(fovyRad / 2);
   float tanFovxDiv2 = tanFovyDiv2 * (width / (float) height);
 
-  float alpha = tanFovxDiv2 * (sample.y - ((float) width / 2))
+  float alpha = tanFovxDiv2 * ((sample.y + 0.5) - ((float) width / 2))
       / ((float) width / 2);
-  float beta = tanFovyDiv2 * (((float) height / 2) - sample.x)
+  float beta = tanFovyDiv2 * (((float) height / 2) - (sample.x + 0.5))
       / ((float) height / 2);
 
   ray->pos = eye;
