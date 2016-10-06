@@ -9,7 +9,7 @@ AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
 Transformation.o Matrix.o Normal.o Vector.o Point.o
 
-EXECUTABLES = TestSampler TestTransformation TestMatrix
+EXECUTABLES = loadscene TestSampler TestTransformation TestMatrix
 
 LIBS =	-lfreeimage
 
