@@ -9,7 +9,7 @@ AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
 Transformation.o Matrix.o Normal.o Vector.o Point.o
 
-EXECUTABLES = TestSampler TestMatrix
+EXECUTABLES = TestSampler TestTransformation TestMatrix
 
 LIBS =	-lfreeimage
 
@@ -27,6 +27,9 @@ loadscene:	$(OBJS)
 
 TestSampler:	Sampler.o Sample.o
 	$(CXX) $(CXXFLAGS) -o TestSampler Sampler.o Sample.o TestSampler.cpp
+
+TestTransformation:	Transformation.o Matrix.o Normal.o Vector.o Point.o
+	$(CXX) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o Normal.o Vector.o Point.o geo/TestTransformation.cpp
 
 TestMatrix:	Matrix.o Vector.o
 	$(CXX) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp

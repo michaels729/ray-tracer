@@ -4,7 +4,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <stack>
 #include <vector>
 
 #include "color/Color.h"

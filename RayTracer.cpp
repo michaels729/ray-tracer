@@ -69,7 +69,7 @@ Color RayTracer::shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor) {
   // Calculate the distance between the object and the light source,
   // then use the result to calculate the attenuation.
   float atten = brdf->atten.calc(
-      std::sqrt(
+      sqrt(
           pow(lightPos.x - objPos.x, 2) + pow(lightPos.y - objPos.y, 2)
               + pow(lightPos.z - objPos.z, 2)));
   Color lightColor = *lcolor;
@@ -77,19 +77,21 @@ Color RayTracer::shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor) {
   // Need to calculate dot products with normalized direction.
   // Negate the direction so that we get the direction *toward* light.
   Vector lightDir = -lray.dir.normalize();
+  Normal objNormal = lg->normal;
 
+  // Lambert calculation for diffuse term
   Color kd = brdf->kd;
-  float nDotL = lg->normal.dot(lightDir);
+  float nDotL = objNormal.dot(lightDir);
   Color lambert = kd * lightColor * std::max(nDotL, 0.0f);
-  return lambert * atten;
 
-//  Vector eyeDir = (eyePos - lg->pos).normalize();
-//  float nDotH = lg->normal.dot(lightDir + eyeDir);
-//  Color ks = brdf->ks;
-//  float shininess = brdf->shininess;
-//  Color phong = ks * lightColor * std::pow(std::max(nDotH, 0.0f), shininess);
-//
-//  return (lambert + phong) * atten;
+  // Phong calculation for specular term.
+  Vector eyeDir = (eyePos - objPos).normalize();
+  float nDotH = objNormal.dot(lightDir + eyeDir);
+  Color ks = brdf->ks;
+  float shininess = brdf->shininess;
+  Color phong = ks * lightColor * std::pow(std::max(nDotH, 0.0f), shininess);
+
+  return (lambert + phong) * atten;
 }
 
 //Ray RayTracer::createReflectRay(LocalGeo &lg, Ray &ray) {

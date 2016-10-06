@@ -13,7 +13,7 @@
 #include "Vector.h"
 
 Transformation::Transformation(Matrix m) :
-    m(m), minvt(m.inverse()) {
+    m(m), minvt(m.inverse().transpose()) {
 }
 
 Point Transformation::operator*(const Point &p) const {
