@@ -51,10 +51,6 @@ bool Sphere::intersect(Ray &ray, float *thit, LocalGeo *local) const {
     // Hit a point in front of the eye and another point behind the eye,
     // so pick the one in front of they eye
     *thit = std::max(t0, t1);
-  } else {
-    // Hit at 0 or negative value (behind eye),
-    // so return false because we can't render
-    return false;
   }
   local->pos = ray.pos + (ray.dir * (*thit));
   local->normal = Normal(local->pos - center);

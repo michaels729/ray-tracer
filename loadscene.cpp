@@ -60,8 +60,6 @@ void loadScene(std::string file) {
   Color ke, kd, ks;
   // Initialize shininess
   float shininess;
-  // Need the Eye position for both the camera and the ray tracer.
-  Point eyePos;
 
   std::ifstream inpfile(file.c_str());
   if (!inpfile.is_open()) {
@@ -127,7 +125,6 @@ void loadScene(std::string file) {
         float upz = atof(splitline[9].c_str());
         // fovy:
         float fovy = atof(splitline[10].c_str());
-        eyePos = Point(lookfromx, lookfromy, lookfromz);
         camera = new Camera(lookfromx, lookfromy, lookfromz,
                             lookatx, lookaty, lookatz,
                             upx, upy, upz,
@@ -364,7 +361,7 @@ void loadScene(std::string file) {
       }
     }
     AggregatePrimitive *aggPrim = new AggregatePrimitive(primList);
-    RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim, lights, eyePos);
+    RayTracer *rayTracer = new RayTracer(maxDepth, *aggPrim, lights);
     Scene *scene = new Scene(*camera, *rayTracer, *film, width, height);
     scene->render(filename);
 

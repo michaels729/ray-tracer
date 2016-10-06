@@ -24,14 +24,13 @@ private:
   int maxDepth;
   Primitive &primitive;
   std::vector<Light*> lights;
-  Point &eyePos;
   void trace(const Ray &ray, int depth, Color *color);
-  Color shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor);
-//  Ray createReflectRay(LocalGeo &lg, Ray &ray);
+  Color shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
+      Color *lcolor);
+  Ray createReflectRay(LocalGeo &lg, Ray &ray);
 
 public:
-  RayTracer(int maxDepth, Primitive &primitive, std::vector<Light*> lights,
-      Point &eyePos);
+  RayTracer(int maxDepth, Primitive &primitive, std::vector<Light*> lights);
   virtual ~RayTracer();
   void trace(const Ray &ray, Color *color);
 };

@@ -34,7 +34,7 @@ bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) const {
 
   float beta = betaGammaHit.x, gamma = betaGammaHit.y, hit = betaGammaHit.z;
   if ((beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 1)
-      && (beta + gamma <= 1) && (hit > 0)) {
+      && (beta + gamma <= 1)) {
     *thit = hit;
     local->pos = ray.pos + (ray.dir * hit);
     local->normal = n;
@@ -53,7 +53,7 @@ bool Triangle::intersectP(Ray &ray) const {
                     v3MinusV1.z, v2MinusV1.z, -ray.dir.z);
   Vector b = ray.pos - v1;
   Vector betaGammaHit = A.inverse() * b;
-  float beta = betaGammaHit.x, gamma = betaGammaHit.y, hit = betaGammaHit.z;
+  float beta = betaGammaHit.x, gamma = betaGammaHit.y;
   return (beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 1)
-      && (beta + gamma <= 1) && (hit > 0);
+      && (beta + gamma <= 1);
 }

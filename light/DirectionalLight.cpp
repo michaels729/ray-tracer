@@ -23,8 +23,8 @@ DirectionalLight::~DirectionalLight() {
 void DirectionalLight::generateLightRay(const LocalGeo &local, Ray *lray,
     Color *lcolor) {
   *lcolor = color;
-  // Direction of light is direction *to* the light, so negate it to get the
-  // direction *from* the light
+  // Direction of light is direction *toward* the light source, so negate it
+  // to get the direction *from* the light source.
   lray->pos = Point(std::numeric_limits<float>::infinity(),
       std::numeric_limits<float>::infinity(),
       std::numeric_limits<float>::infinity());

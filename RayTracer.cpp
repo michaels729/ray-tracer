@@ -20,8 +20,8 @@
 #include "geo/Vector.h"
 
 RayTracer::RayTracer(int maxDepth, Primitive &primitive,
-    std::vector<Light*> lights, Point &eyePos) :
-    maxDepth(maxDepth), primitive(primitive), lights(lights), eyePos(eyePos) {
+    std::vector<Light*> lights) :
+    maxDepth(maxDepth), primitive(primitive), lights(lights) {
 }
 
 RayTracer::~RayTracer() {
@@ -51,7 +51,7 @@ void RayTracer::trace(const Ray &ray, int depth, Color *color) {
     light->generateLightRay(in.localGeo, &lray, &lcolor);
     if (!primitive.intersectP(lray)) {
       Color tempColor = *color;
-      Color shade = shading(&in.localGeo, &brdf, lray, &lcolor);
+      Color shade = shading(ray, &in.localGeo, &brdf, lray, &lcolor);
       *color = tempColor + shade;
     }
   }
@@ -63,7 +63,8 @@ void RayTracer::trace(const Ray &ray, int depth, Color *color) {
 //  }
 }
 
-Color RayTracer::shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor) {
+Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
+    Color *lcolor) {
   Point objPos = lg->pos;
   Point lightPos = lray.pos;
   // Calculate the distance between the object and the light source,
@@ -85,8 +86,9 @@ Color RayTracer::shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor) {
   Color lambert = kd * lightColor * std::max(nDotL, 0.0f);
 
   // Phong calculation for specular term.
-  Vector eyeDir = (eyePos - objPos).normalize();
-  float nDotH = objNormal.dot(lightDir + eyeDir);
+  Ray reflection = createReflectRay(*lg, lray);
+  Vector halfVec = (-lightDir + reflection.dir).normalize();
+  float nDotH = objNormal.dot(halfVec);
   Color ks = brdf->ks;
   float shininess = brdf->shininess;
   Color phong = ks * lightColor * std::pow(std::max(nDotH, 0.0f), shininess);
@@ -94,6 +96,7 @@ Color RayTracer::shading(LocalGeo *lg, BRDF *brdf, Ray &lray, Color *lcolor) {
   return (lambert + phong) * atten;
 }
 
-//Ray RayTracer::createReflectRay(LocalGeo &lg, Ray &ray) {
-//  return Ray();
-//}
+Ray RayTracer::createReflectRay(LocalGeo &lg, Ray &ray) {
+  float lDotN = ray.dir.dot(lg.normal);
+  return Ray(lg.pos, ray.dir + lg.normal * 2 * lDotN);
+}
