@@ -54,6 +54,6 @@ bool Triangle::intersectP(Ray &ray) const {
   Vector b = ray.pos - v1;
   Vector betaGammaHit = A.inverse() * b;
   float beta = betaGammaHit.x, gamma = betaGammaHit.y, hit = betaGammaHit.z;
-  return (beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 0)
+  return (beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 1)
       && (beta + gamma <= 1) && (hit > 0);
 }
