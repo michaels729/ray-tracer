@@ -98,5 +98,6 @@ Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
 
 Ray RayTracer::createReflectRay(LocalGeo &lg, Ray &ray) {
   float lDotN = ray.dir.dot(lg.normal);
-  return Ray(lg.pos, ray.dir + lg.normal * 2 * lDotN);
+  Ray reflect = { lg.pos, ray.dir + lg.normal * 2 * lDotN };
+  return reflect;
 }
