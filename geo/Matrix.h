@@ -10,8 +10,6 @@
 class Point;
 class Vector;
 
-const float pi = 3.14159265;
-
 class Matrix {
 private:
   float mat[4][4];

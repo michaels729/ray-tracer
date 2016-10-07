@@ -22,6 +22,7 @@ public:
   virtual ~PointLight();
   void generateLightRay(const LocalGeo &local, Ray *lray, Color *lcolor)
       override;
+  Point getPos() override;
 };
 
 #endif /* POINTLIGHT_H_ */

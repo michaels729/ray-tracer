@@ -8,6 +8,7 @@
 #include "Camera.h"
 
 #include <cmath>
+#include <limits>
 
 #include "geo/Ray.h"
 #include "Sample.h"
@@ -37,4 +38,6 @@ void Camera::generateRay(const Sample &sample, Ray *ray, int width,
 
   ray->pos = eye;
   ray->dir = (u * alpha + v * beta - w).normalize();
+  ray->t_min = 0.0f;
+  ray->t_max = std::numeric_limits<float>::infinity();
 }

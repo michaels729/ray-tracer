@@ -15,15 +15,23 @@
 #include "Point.h"
 #include "Vector.h"
 
-Matrix::Matrix(): Matrix(1) {
+Matrix::Matrix() :
+    Matrix(1) {
 }
 
-Matrix::Matrix(float a): Matrix(a, 0, 0, 0, 0, a, 0, 0, 0, 0, a, 0, 0, 0, 0, a) {
+Matrix::Matrix(float a) :
+    Matrix(a, 0, 0, 0,
+           0, a, 0, 0,
+           0, 0, a, 0,
+           0, 0, 0, a) {
 }
 
 Matrix::Matrix(float a, float b, float c, float d, float e, float f, float g,
     float h, float i) :
-    Matrix(a, b, c, 0, d, e, f, 0, g, h, i, 0, 0, 0, 0, 1) {
+    Matrix(a, b, c, 0,
+           d, e, f, 0,
+           g, h, i, 0,
+           0, 0, 0, 1) {
 }
 
 Matrix::Matrix(float a, float b, float c, float d, float e, float f, float g,
@@ -33,9 +41,10 @@ Matrix::Matrix(float a, float b, float c, float d, float e, float f, float g,
 }
 
 Matrix::Matrix(float arr[][4]) :
-    Matrix(arr[0][0], arr[0][1], arr[0][2], arr[0][3], arr[1][0], arr[1][1],
-        arr[1][2], arr[1][3], arr[2][0], arr[2][1], arr[2][2], arr[2][3],
-        arr[3][0], arr[3][1], arr[3][2], arr[3][3]) {
+    Matrix(arr[0][0], arr[0][1], arr[0][2], arr[0][3],
+           arr[1][0], arr[1][1], arr[1][2], arr[1][3],
+           arr[2][0], arr[2][1], arr[2][2], arr[2][3],
+           arr[3][0], arr[3][1], arr[3][2], arr[3][3]) {
 }
 
 Matrix Matrix::operator+(const Matrix &m) const {
@@ -154,29 +163,29 @@ Matrix Matrix::inverse() const {
 }
 
 Matrix Matrix::rotate(const float degrees, const Vector &axis) {
-  const float radians = degrees * pi / 180;
+  const float radians = degrees * M_PI / 180;
   const float cosRadians = cos(radians);
   const float sinRadians = sin(radians);
-  Matrix aaT = Matrix(axis.x * axis.x, axis.x * axis.y, axis.x * axis.z,
-                      axis.x * axis.y, axis.y * axis.y, axis.y * axis.z,
-                      axis.x * axis.z, axis.y * axis.z, axis.z * axis.z);
-  Matrix aStar = Matrix(0, -axis.z, axis.y,
-                        axis.z, 0, -axis.x,
-                        -axis.y, axis.x, 0);
+  glm::mat3 aaT = glm::mat3(axis.x * axis.x, axis.x * axis.y, axis.x * axis.z,
+                            axis.y * axis.x, axis.y * axis.y, axis.y * axis.z,
+                            axis.z * axis.x, axis.z * axis.y, axis.z * axis.z);
+  glm::mat3 aStar = glm::mat3(0, axis.z, -axis.y,
+                              -axis.z, 0, axis.x,
+                              axis.y, -axis.x, 0);
 
-  return Matrix(1) * cosRadians + aaT * (1 - cosRadians) + aStar * sinRadians;
+  glm::mat3 result = cosRadians * glm::mat3(1)
+      + (1 - cosRadians) * aaT
+      + sinRadians * aStar;
+
+  return Matrix(result[0][0], result[1][0], result[2][0],
+                result[0][1], result[1][1], result[2][1],
+                result[0][2], result[1][2], result[2][2]);
 }
 
 Matrix Matrix::translate(const float& tx, const float& ty, const float& tz) {
-  return Matrix(1, 0, 0, tx,
-                0, 1, 0, ty,
-                0, 0, 1, tz,
-                0, 0, 0, 1);
+  return Matrix(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
 }
 
 Matrix Matrix::scale(const float& sx, const float& sy, const float& sz) {
-  return Matrix(sx, 0, 0, 0,
-                0, sy, 0, 0,
-                0, 0, sz, 0,
-                0, 0, 0, 1);
+  return Matrix(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1);
 }

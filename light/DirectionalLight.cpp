@@ -9,7 +9,7 @@
 
 #include <limits>
 
-#include "../geo/Point.h"
+#include "../geo/LocalGeo.h"
 #include "../geo/Ray.h"
 
 DirectionalLight::DirectionalLight(float x, float y, float z, float r, float g,
@@ -20,13 +20,21 @@ DirectionalLight::DirectionalLight(float x, float y, float z, float r, float g,
 DirectionalLight::~DirectionalLight() {
 }
 
+// Generate a ray starting from the position stored in local geometry to the
+// position of the light source.
 void DirectionalLight::generateLightRay(const LocalGeo &local, Ray *lray,
     Color *lcolor) {
+  float epsilon = 0.001f;
+
   *lcolor = color;
-  // Direction of light is direction *toward* the light source, so negate it
-  // to get the direction *from* the light source.
-  lray->pos = Point(std::numeric_limits<float>::infinity(),
+  lray->pos = local.pos;
+  lray->dir = dir.normalize();
+  lray->t_min = epsilon;
+  lray->t_max = std::numeric_limits<float>::infinity();
+}
+
+Point DirectionalLight::getPos() {
+  return Point(std::numeric_limits<float>::infinity(),
       std::numeric_limits<float>::infinity(),
       std::numeric_limits<float>::infinity());
-  lray->dir = -dir;
 }

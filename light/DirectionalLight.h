@@ -22,6 +22,7 @@ public:
   virtual ~DirectionalLight();
   void generateLightRay(const LocalGeo &local, Ray *lray, Color *lcolor)
       override;
+  Point getPos() override;
 };
 
 #endif /* DIRECTIONALLIGHT_H_ */
