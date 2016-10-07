@@ -94,9 +94,11 @@ Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
 
 Ray RayTracer::createReflectRay(LocalGeo &lg, const Ray &ray) {
   float epsilon = 0.001f;
-  float lDotN = ray.dir.dot(lg.normal);
+  // ray.dir is negated for dot product because it is directed *toward* the
+  // local geometry.
+  float lDotN = -ray.dir.dot(lg.normal);
 
-  // ray.dir is not negated because it is directed *toward* the local geometry
+  // Don't negate ray.dir here for the same reason stated above.
   Ray reflect = { lg.pos, (ray.dir + lg.normal * 2 * lDotN).normalize(),
       epsilon, std::numeric_limits<float>::infinity() };
   return reflect;
