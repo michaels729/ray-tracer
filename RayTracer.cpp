@@ -103,8 +103,11 @@ Ray RayTracer::createReflectRay(LocalGeo &lg, const Ray &ray) {
   // local geometry.
   float lDotN = -ray.dir.dot(lg.normal);
 
+  Vector direction = (ray.dir + lg.normal * 2 * lDotN).normalize();
+  // Offset the position to prevent self-intersection.
+  Point position = lg.pos + direction * epsilon;
   // Don't negate ray.dir here for the same reason stated above.
-  Ray reflect = { lg.pos, (ray.dir + lg.normal * 2 * lDotN).normalize(),
-      epsilon, std::numeric_limits<float>::infinity() };
+  Ray reflect = { position, direction, 0.0f,
+      std::numeric_limits<float>::infinity() };
   return reflect;
 }

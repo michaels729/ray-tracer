@@ -25,12 +25,16 @@ PointLight::~PointLight() {
 void PointLight::generateLightRay(const LocalGeo &local, Ray *lray,
     Color *lcolor) {
   float epsilon = 0.001f;
+
   Vector displacementVec = pos - local.pos;
+  Vector direction = displacementVec.normalize();
+  // Offset the position to prevent self-intersection.
+  Point position = local.pos + direction * epsilon;
 
   *lcolor = color;
-  lray->pos = local.pos;
-  lray->dir = displacementVec.normalize();
-  lray->t_min = epsilon;
+  lray->pos = position;
+  lray->dir = direction;
+  lray->t_min = 0.0f;
   lray->t_max = sqrt(
       pow(displacementVec.x, 2) + pow(displacementVec.y, 2)
           + pow(displacementVec.z, 2));

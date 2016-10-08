@@ -25,6 +25,7 @@ public:
   const float operator[](int i) const;
 
   float dot(const Vector &v) const;
+  float magnitude() const;
   Vector normalize() const;
 };
 

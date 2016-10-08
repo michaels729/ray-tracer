@@ -73,10 +73,14 @@ float Vector::dot(const Vector& v) const {
   return x * v.x + y * v.y + z * v.z;
 }
 
+float Vector::magnitude() const {
+  return sqrt(x * x + y * y + z * z);
+}
+
 Vector Vector::normalize() const {
-  float dividend = sqrt(x * x + y * y + z * z);
-  if (dividend == 0) {
+  float magn = magnitude();
+  if (magn == 0) {
     return Vector(0, 0, 0);
   }
-  return Vector(x / dividend, y / dividend, z / dividend);
+  return Vector(x / magn, y / magn, z / magn);
 }

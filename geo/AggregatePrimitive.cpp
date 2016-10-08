@@ -32,7 +32,7 @@ bool AggregatePrimitive::intersect(const Ray &ray, float *thit,
       // Pick the closest hit in front of the eye to render.
       // Discount hit at distance <= 0, because point would be at or behind
       // the eye.
-      if (currThit > 0 && currThit < nearestThit) {
+      if (currThit < nearestThit) {
         nearestThit = currThit;
         nearestIn = currIn;
       }
