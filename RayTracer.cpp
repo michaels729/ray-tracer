@@ -67,9 +67,14 @@ void RayTracer::trace(const Ray &ray, int depth, Color *color) {
 
 Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
     Color *lcolor) {
-  // Calculate the distance between the object and the light source,
-  // then use the result to calculate the attenuation.
-  float atten = brdf->atten.calc(lray.t_max);
+
+  float atten = 1.0f;
+  // Check if light source is directional by check if if t_max is infinity.
+  // If the light source is a point light, then calculate the attentuation,
+  // otherwise use an attenuation of 1.
+  if (lray.t_max < std::numeric_limits<float>::infinity()) {
+    atten = brdf->atten.calc(lray.t_max);
+  }
   Color lightColor = *lcolor;
 
   // Need to calculate dot products with normalized direction.
@@ -93,7 +98,7 @@ Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
 }
 
 Ray RayTracer::createReflectRay(LocalGeo &lg, const Ray &ray) {
-  float epsilon = 0.001f;
+  float epsilon = 0.0001f;
   // ray.dir is negated for dot product because it is directed *toward* the
   // local geometry.
   float lDotN = -ray.dir.dot(lg.normal);
