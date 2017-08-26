@@ -31,13 +31,13 @@ Scene::~Scene() {
 void Scene::render(std::string fname) {
   Sample sample;
   int size = width * height;
-  # pragma omp parallel for schedule(dynamic)
+  # pragma omp parallel for schedule(dynamic) private(sample)
   for (int i = 0; i < size; ++i) {
-    int y = i % width;
-    int x = i % height;
+    sample.y = i % width;
+    sample.x = i % height;
     //std::cout << '(' << y << ", " << x << ")\n";
     Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
-    camera.generateRay(Sample(x, y), &ray, width, height);
+    camera.generateRay(sample, &ray, width, height);
 
     Color color;
     rayTracer.trace(ray, &color);
