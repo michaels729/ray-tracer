@@ -29,12 +29,12 @@ Scene::~Scene() {
 }
 
 void Scene::render(std::string fname) {
-  Sample sample;
   int size = width * height;
-  # pragma omp parallel for schedule(dynamic) private(sample)
+  # pragma omp parallel for schedule(dynamic)
   for (int i = 0; i < size; ++i) {
-    sample.y = i % width;
-    sample.x = i % height;
+    int y = i % width;
+    int x = i / width;
+    Sample sample(x, y);
     //std::cout << '(' << y << ", " << x << ")\n";
     Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
     camera.generateRay(sample, &ray, width, height);
