@@ -10,8 +10,6 @@
 
 #include <string>
 
-#include "Sampler.h"
-
 class Camera;
 class Film;
 class RayTracer;
@@ -22,7 +20,6 @@ public:
   RayTracer &rayTracer;
   Film &film;
   int width, height;
-  Sampler sampler;
 
   Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int width,
       int height);

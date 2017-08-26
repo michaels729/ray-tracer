@@ -17,11 +17,12 @@
 #include "Sample.h"
 
 #include <iostream>
+#include <omp.h>
 
 Scene::Scene(const Camera &camera, RayTracer &rayTracer, Film &film, int width,
     int height) :
     camera(camera), rayTracer(rayTracer), film(film), width(width), height(
-        height), sampler(Sampler(width, height)) {
+        height) {
 }
 
 Scene::~Scene() {
@@ -29,10 +30,14 @@ Scene::~Scene() {
 
 void Scene::render(std::string fname) {
   Sample sample;
-  while (sampler.getSample(&sample)) {
-    std::cout << '(' << sample.y << ", " << sample.x << ")\n";
+  int size = width * height;
+  # pragma omp parallel for schedule(dynamic)
+  for (int i = 0; i < size; ++i) {
+    int y = i % width;
+    int x = i % height;
+    //std::cout << '(' << y << ", " << x << ")\n";
     Ray ray = { Point(0, 0, 0), Vector(0, 0, 0), 0, 0 };
-    camera.generateRay(sample, &ray, width, height);
+    camera.generateRay(Sample(x, y), &ray, width, height);
 
     Color color;
     rayTracer.trace(ray, &color);

@@ -1,15 +1,16 @@
 CXX =	g++
 
-CXXFLAGS =	-g -Wall -fmessage-length=0 -fno-strict-aliasing -pthread -std=c++11
+CXXFLAGS =	-g -Wall -fmessage-length=0 -fno-strict-aliasing -fopenmp\
+-pthread -std=c++11
 
-OBJS =	RayTracer.o Camera.o Scene.o Film.o Sampler.o Sample.o\
+OBJS =	RayTracer.o Camera.o Scene.o Film.o Sample.o\
 Material.o Color.o\
 Attenuation.o DirectionalLight.o PointLight.o Light.o\
 AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
 Transformation.o Matrix.o Normal.o Vector.o Point.o
 
-EXECUTABLES = loadscene TestSampler TestTransformation TestMatrix
+EXECUTABLES = loadscene TestTransformation TestMatrix
 
 LIBS =	-lfreeimage
 
@@ -24,9 +25,6 @@ all:	$(TARGET)
 
 loadscene:	$(OBJS)
 	$(CXX) $(CXXFLAGS) -o loadscene $(OBJS) loadscene.cpp $(LIBS)
-
-TestSampler:	Sampler.o Sample.o
-	$(CXX) $(CXXFLAGS) -o TestSampler Sampler.o Sample.o TestSampler.cpp
 
 TestTransformation:	Transformation.o Matrix.o Normal.o Vector.o Point.o
 	$(CXX) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o Normal.o Vector.o Point.o geo/TestTransformation.cpp
@@ -45,9 +43,6 @@ Scene.o:	Scene.cpp Scene.h
 
 Film.o:	Film.cpp Film.h
 	$(CXX) $(CXXFLAGS) -c Film.cpp
-
-Sampler.o:	Sampler.cpp Sampler.h
-	$(CXX) $(CXXFLAGS) -c Sampler.cpp
 
 Sample.o:	Sample.cpp Sample.h
 	$(CXX) $(CXXFLAGS) -c Sample.cpp
