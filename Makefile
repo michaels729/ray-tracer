@@ -12,6 +12,8 @@ Transformation.o Matrix.o Normal.o Vector.o Point.o
 
 EXECUTABLES = loadscene TestTransformation TestMatrix
 
+INCLUDES=	-I ./third-party/include/eigen
+
 LIBS =	-lfreeimage
 
 TARGET =	loadscene
@@ -19,87 +21,87 @@ TARGET =	loadscene
 PNG = 	*.png
 
 $(TARGET):	$(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
+	$(CXX) $(INCLUDES) -o $(TARGET) $(OBJS) $(LIBS)
 
 all:	$(TARGET)
 
 loadscene:	$(OBJS)
-	$(CXX) $(CXXFLAGS) -o loadscene $(OBJS) loadscene.cpp $(LIBS)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -o loadscene $(OBJS) loadscene.cpp $(LIBS)
 
 TestTransformation:	Transformation.o Matrix.o Normal.o Vector.o Point.o
-	$(CXX) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o Normal.o Vector.o Point.o geo/TestTransformation.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o Normal.o Vector.o Point.o geo/TestTransformation.cpp
 
 TestMatrix:	Matrix.o Vector.o
-	$(CXX) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp
 
 RayTracer.o:	RayTracer.cpp RayTracer.h
-	$(CXX) $(CXXFLAGS) -c RayTracer.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c RayTracer.cpp
 
 Camera.o:	Camera.cpp Camera.h
-	$(CXX) $(CXXFLAGS) -c Camera.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c Camera.cpp
 
 Scene.o:	Scene.cpp Scene.h
-	$(CXX) $(CXXFLAGS) -c Scene.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c Scene.cpp
 
 Film.o:	Film.cpp Film.h
-	$(CXX) $(CXXFLAGS) -c Film.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c Film.cpp
 
 Sample.o:	Sample.cpp Sample.h
-	$(CXX) $(CXXFLAGS) -c Sample.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c Sample.cpp
 
 Material.o:	color/Material.cpp color/Material.h
-	$(CXX) $(CXXFLAGS) -c color/Material.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c color/Material.cpp
 
 Color.o:	color/Color.cpp color/Color.h
-	$(CXX) $(CXXFLAGS) -c color/Color.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c color/Color.cpp
 
 Attenuation.o:	light/Attenuation.cpp light/Attenuation.h
-	$(CXX) $(CXXFLAGS) -c light/Attenuation.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c light/Attenuation.cpp
 
 DirectionalLight.o:	light/DirectionalLight.cpp light/DirectionalLight.h
-	$(CXX) $(CXXFLAGS) -c light/DirectionalLight.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c light/DirectionalLight.cpp
 
 PointLight.o:	light/PointLight.cpp light/PointLight.h
-	$(CXX) $(CXXFLAGS) -c light/PointLight.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c light/PointLight.cpp
 
 Light.o:	light/Light.cpp light/Light.h
-	$(CXX) $(CXXFLAGS) -c light/Light.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c light/Light.cpp
 
 AggregatePrimitive.o:	geo/AggregatePrimitive.cpp geo/AggregatePrimitive.h
-	$(CXX) $(CXXFLAGS) -c geo/AggregatePrimitive.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/AggregatePrimitive.cpp
 
 GeometricPrimitive.o:	geo/GeometricPrimitive.cpp geo/GeometricPrimitive.h
-	$(CXX) $(CXXFLAGS) -c geo/GeometricPrimitive.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/GeometricPrimitive.cpp
 
 Primitive.o:	geo/Primitive.cpp geo/Primitive.h
-	$(CXX) $(CXXFLAGS) -c geo/Primitive.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Primitive.cpp
 
 Sphere.o:	geo/Sphere.cpp geo/Sphere.h
-	$(CXX) $(CXXFLAGS) -c geo/Sphere.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Sphere.cpp
 
 Triangle.o:	geo/Triangle.cpp geo/Triangle.h
-	$(CXX) $(CXXFLAGS) -c geo/Triangle.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Triangle.cpp
 
 Shape.o:	geo/Shape.cpp geo/Shape.h
-	$(CXX) $(CXXFLAGS) -c geo/Shape.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Shape.cpp
 
 Ray.o:	geo/Ray.cpp geo/Ray.h
-	$(CXX) $(CXXFLAGS) -c geo/Ray.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Ray.cpp
 
 Transformation.o:	geo/Transformation.cpp geo/Transformation.h
-	$(CXX) $(CXXFLAGS) -c geo/Transformation.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Transformation.cpp
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
-	$(CXX) $(CXXFLAGS) -c geo/Matrix.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Matrix.cpp
 
 Normal.o:	geo/Normal.cpp geo/Normal.h
-	$(CXX) $(CXXFLAGS) -c geo/Normal.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Normal.cpp
 
 Vector.o:	geo/Vector.cpp geo/Vector.h
-	$(CXX) $(CXXFLAGS) -c geo/Vector.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Vector.cpp
 
 Point.o:	geo/Point.cpp geo/Point.h
-	$(CXX) $(CXXFLAGS) -c geo/Point.cpp
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Point.cpp
 
 clean:
 	rm -f $(OBJS) $(EXECUTABLES) $(TARGET) $(PNG)
