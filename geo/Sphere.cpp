@@ -10,12 +10,9 @@
 #include <math.h>
 #include <algorithm>
 
-#include "LocalGeo.h"
-#include "Normal.h"
-#include "Ray.h"
-
-Sphere::Sphere(float x, float y, float z, float radius) :
-    Sphere(Point(x, y, z), radius) {
+Sphere::Sphere(float x, float y, float z, float radius) {
+  this->center << x, y, z;
+  this->radius = radius;
 }
 
 Sphere::Sphere(Point center, float radius) :
@@ -58,7 +55,7 @@ bool Sphere::intersect(Ray &ray, float *thit, LocalGeo *local) const {
   }
   *thit = hit;
   local->pos = ray.pos + (ray.dir * (*thit));
-  local->normal = Normal(local->pos - center);
+  local->normal = (local->pos - center).normalized();
   return true;
 }
 

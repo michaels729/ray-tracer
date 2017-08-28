@@ -10,15 +10,16 @@
 #include <cmath>
 #include <limits>
 
-#include "geo/Ray.h"
-#include "Sample.h"
-
 Camera::Camera(float lookfromx, float lookfromy, float lookfromz, float lookatx,
     float lookaty, float lookatz, float upx, float upy, float upz, float fovy) :
-    eye(Point(lookfromx, lookfromy, lookfromz)), center(
-        Point(lookatx, lookaty, lookatz)), upinit(Vector(upx, upy, upz)), fovy(
-        fovy), w((eye - center).normalize()), u((upinit * w).normalize()), v(
-        w * u) {
+    fovy(fovy) {
+  eye << lookfromx, lookfromy, lookfromz;
+  center << lookatx, lookaty, lookatz;
+  upinit << upx, upy, upz;
+
+  w = (eye - center).normalized();
+  u = upinit.cross(w).normalized();
+  v = w.cross(u).normalized();
 }
 
 Camera::~Camera() {
@@ -37,7 +38,7 @@ void Camera::generateRay(const Sample &sample, Ray *ray, int width,
       / ((float) height / 2);
 
   ray->pos = eye;
-  ray->dir = (u * alpha + v * beta - w).normalize();
+  ray->dir = (u * alpha + v * beta - w).normalized();
   ray->t_min = 0.0f;
   ray->t_max = std::numeric_limits<float>::infinity();
 }

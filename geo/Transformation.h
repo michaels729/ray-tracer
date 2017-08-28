@@ -8,21 +8,19 @@
 #ifndef TRANSFORMATION_H_
 #define TRANSFORMATION_H_
 
+#include "LocalGeo.h"
 #include "Matrix.h"
-#include "Normal.h"
-
-struct LocalGeo;
-class Point;
-struct Ray;
+#include "Point.h"
+#include "Ray.h"
+#include "Vector.h"
 
 class Transformation {
 public:
   Matrix m, minvt;
   Transformation(Matrix m);
 
-  Point operator*(const Point &p) const;
-  Vector operator*(const Vector &v) const;
-  Normal operator*(const Normal &n) const;
+  Point multiplyPoint(const Point &p) const;
+  Vector multiplyVector(const Vector &v) const;
   Ray operator*(const Ray &r) const;
   LocalGeo operator*(const LocalGeo &lg) const;
 };

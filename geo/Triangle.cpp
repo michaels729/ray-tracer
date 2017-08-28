@@ -7,15 +7,14 @@
 
 #include "Triangle.h"
 
-#include "LocalGeo.h"
 #include "Matrix.h"
-#include "Point.h"
-#include "Ray.h"
 
 Triangle::Triangle(const Point *vertex1, const Point *vertex2,
     const Point *vertex3) :
-    vertex1(vertex1), vertex2(vertex2), vertex3(vertex3),
-    n((*vertex2 - *vertex1) * (*vertex3 - *vertex1)) {
+    vertex1(vertex1), vertex2(vertex2), vertex3(vertex3) {
+  Vector edge1 = *vertex2 - *vertex1;
+  Vector edge2 = *vertex3 - *vertex1;
+  n = edge1.cross(edge2).normalized();
 }
 
 Triangle::~Triangle() {
@@ -26,13 +25,14 @@ bool Triangle::intersect(Ray &ray, float *thit, LocalGeo *local) const {
   Vector v2MinusV1 = v2 - v1;
   Vector v3MinusV1 = v3 - v1;
 
-  Matrix A = Matrix(v3MinusV1.x, v2MinusV1.x, -ray.dir.x,
-                    v3MinusV1.y, v2MinusV1.y, -ray.dir.y,
-                    v3MinusV1.z, v2MinusV1.z, -ray.dir.z);
+  Eigen::Matrix3f A;
+  A << v3MinusV1[0], v2MinusV1[0], -ray.dir[0],
+       v3MinusV1[1], v2MinusV1[1], -ray.dir[1],
+       v3MinusV1[2], v2MinusV1[2], -ray.dir[2];
   Vector b = ray.pos - v1;
   Vector betaGammaHit = A.inverse() * b;
 
-  float beta = betaGammaHit.x, gamma = betaGammaHit.y, hit = betaGammaHit.z;
+  float beta = betaGammaHit[0], gamma = betaGammaHit[1], hit = betaGammaHit[2];
   if ((beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 1)
       && (beta + gamma <= 1) && (hit >= ray.t_min) && (hit <= ray.t_max)) {
     *thit = hit;
@@ -48,12 +48,13 @@ bool Triangle::intersectP(Ray &ray) const {
   Vector v2MinusV1 = v2 - v1;
   Vector v3MinusV1 = v3 - v1;
 
-  Matrix A = Matrix(v3MinusV1.x, v2MinusV1.x, -ray.dir.x,
-                    v3MinusV1.y, v2MinusV1.y, -ray.dir.y,
-                    v3MinusV1.z, v2MinusV1.z, -ray.dir.z);
+  Eigen::Matrix3f A;
+  A << v3MinusV1[0], v2MinusV1[0], -ray.dir[0],
+       v3MinusV1[1], v2MinusV1[1], -ray.dir[1],
+       v3MinusV1[2], v2MinusV1[2], -ray.dir[2];
   Vector b = ray.pos - v1;
   Vector betaGammaHit = A.inverse() * b;
-  float beta = betaGammaHit.x, gamma = betaGammaHit.y, hit = betaGammaHit.z;
+  float beta = betaGammaHit[0], gamma = betaGammaHit[1], hit = betaGammaHit[2];
   return (beta >= 0 && beta <= 1) && (gamma >= 0 && gamma <= 1)
       && (beta + gamma <= 1) && (hit >= ray.t_min) && (hit <= ray.t_max);
 }

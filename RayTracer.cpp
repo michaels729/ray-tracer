@@ -11,12 +11,8 @@
 #include <cmath>
 #include <limits>
 
-#include "color/BRDF.h"
-#include "color/Color.h"
 #include "geo/Intersection.h"
 #include "geo/Point.h"
-#include "geo/Primitive.h"
-#include "geo/Ray.h"
 #include "geo/Vector.h"
 
 RayTracer::RayTracer(int maxDepth, Primitive &primitive,
@@ -78,8 +74,8 @@ Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
   Color lightColor = *lcolor;
 
   // Need to calculate dot products with normalized direction.
-  Vector lightDir = lray.dir.normalize();
-  Normal objNormal = lg->normal;
+  Vector lightDir = lray.dir.normalized();
+  Vector objNormal = lg->normal;
 
   // Lambert calculation for diffuse term
   Color kd = brdf->kd;
@@ -87,8 +83,8 @@ Color RayTracer::shading(const Ray &eyeRay, LocalGeo *lg, BRDF *brdf, Ray &lray,
   Color lambert = kd * lightColor * std::max(nDotL, 0.0f);
 
   // Phong calculation for specular term.
-  Vector eyeDirn = (eyeRay.pos - lg->pos).normalize();
-  Vector halfVec = (lray.dir + eyeDirn).normalize();
+  Vector eyeDirn = (eyeRay.pos - lg->pos).normalized();
+  Vector halfVec = (lray.dir + eyeDirn).normalized();
   float nDotH = objNormal.dot(halfVec);
   Color ks = brdf->ks;
   float shininess = brdf->shininess;
@@ -103,7 +99,9 @@ Ray RayTracer::createReflectRay(LocalGeo &lg, const Ray &ray) {
   // local geometry.
   float lDotN = -ray.dir.dot(lg.normal);
 
-  Vector direction = (ray.dir + lg.normal * 2 * lDotN).normalize();
+  Vector direction = ray.dir + lg.normal * 2 * lDotN;
+  direction.normalize();
+
   // Offset the position to prevent self-intersection.
   Point position = lg.pos + direction * epsilon;
   // Don't negate ray.dir here for the same reason stated above.

@@ -8,8 +8,8 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
-class Ray;
-class LocalGeo;
+#include "LocalGeo.h"
+#include "Ray.h"
 
 class Shape {
 public:

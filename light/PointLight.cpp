@@ -9,12 +9,11 @@
 
 #include <cmath>
 
-#include "../geo/LocalGeo.h"
-#include "../geo/Ray.h"
 #include "../geo/Vector.h"
 
 PointLight::PointLight(float x, float y, float z, float r, float g, float b) :
-    pos(Point(x, y, z)), color(Color(r, g, b)) {
+    color(Color(r, g, b)) {
+  pos << x, y, z;
 }
 
 PointLight::~PointLight() {
@@ -27,7 +26,7 @@ void PointLight::generateLightRay(const LocalGeo &local, Ray *lray,
   float epsilon = 0.001f;
 
   Vector displacementVec = pos - local.pos;
-  Vector direction = displacementVec.normalize();
+  Vector direction = displacementVec.normalized();
   // Offset the position to prevent self-intersection.
   Point position = local.pos + direction * epsilon;
 
@@ -36,8 +35,8 @@ void PointLight::generateLightRay(const LocalGeo &local, Ray *lray,
   lray->dir = direction;
   lray->t_min = 0.0f;
   lray->t_max = sqrt(
-      pow(displacementVec.x, 2) + pow(displacementVec.y, 2)
-          + pow(displacementVec.z, 2));
+      pow(displacementVec[0], 2) + pow(displacementVec[1], 2)
+          + pow(displacementVec[2], 2));
 }
 
 Point PointLight::getPos() {

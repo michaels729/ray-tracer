@@ -8,10 +8,9 @@
 #ifndef LIGHT_H_
 #define LIGHT_H_
 
-class Color;
-struct LocalGeo;
-class Point;
-struct Ray;
+#include "../color/Color.h"
+#include "../geo/LocalGeo.h"
+#include "../geo/Ray.h"
 
 class Light {
 public:

@@ -8,7 +8,7 @@ Material.o Color.o\
 Attenuation.o DirectionalLight.o PointLight.o Light.o\
 AggregatePrimitive.o GeometricPrimitive.o Primitive.o\
 Sphere.o Triangle.o Shape.o\
-Transformation.o Matrix.o Normal.o Vector.o Point.o
+Transformation.o Matrix.o
 
 EXECUTABLES = loadscene TestTransformation TestMatrix
 
@@ -28,11 +28,11 @@ all:	$(TARGET)
 loadscene:	$(OBJS)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -o loadscene $(OBJS) loadscene.cpp $(LIBS)
 
-TestTransformation:	Transformation.o Matrix.o Normal.o Vector.o Point.o
-	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o Normal.o Vector.o Point.o geo/TestTransformation.cpp
+TestTransformation:	Transformation.o Matrix.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestTransformation Transformation.o Matrix.o geo/TestTransformation.cpp
 
-TestMatrix:	Matrix.o Vector.o
-	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestMatrix Matrix.o Vector.o geo/TestMatrix.cpp
+TestMatrix:	Matrix.o
+	$(CXX) $(INCLUDES) $(CXXFLAGS) -o TestMatrix Matrix.o geo/TestMatrix.cpp
 
 RayTracer.o:	RayTracer.cpp RayTracer.h
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c RayTracer.cpp
@@ -93,15 +93,6 @@ Transformation.o:	geo/Transformation.cpp geo/Transformation.h
 
 Matrix.o:	geo/Matrix.cpp geo/Matrix.h
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Matrix.cpp
-
-Normal.o:	geo/Normal.cpp geo/Normal.h
-	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Normal.cpp
-
-Vector.o:	geo/Vector.cpp geo/Vector.h
-	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Vector.cpp
-
-Point.o:	geo/Point.cpp geo/Point.h
-	$(CXX) $(INCLUDES) $(CXXFLAGS) -c geo/Point.cpp
 
 clean:
 	rm -f $(OBJS) $(EXECUTABLES) $(TARGET) $(PNG)

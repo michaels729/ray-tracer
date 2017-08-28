@@ -10,14 +10,11 @@
 
 #include <vector>
 
+#include "color/BRDF.h"
+#include "color/Color.h"
+#include "geo/Primitive.h"
+#include "geo/Ray.h"
 #include "light/Light.h"
-
-class Point;
-
-struct BRDF;
-class Color;
-class Primitive;
-struct Ray;
 
 class RayTracer {
 private:

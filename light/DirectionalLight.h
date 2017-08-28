@@ -9,8 +9,10 @@
 #define DIRECTIONALLIGHT_H_
 
 #include "../color/Color.h"
-#include "../geo/Vector.h"
+#include "../geo/LocalGeo.h"
+#include "../geo/Ray.h"
 #include "Light.h"
+#include "../geo/Vector.h"
 
 class DirectionalLight: public Light {
 private:

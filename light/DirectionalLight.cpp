@@ -9,12 +9,9 @@
 
 #include <limits>
 
-#include "../geo/LocalGeo.h"
-#include "../geo/Ray.h"
-
 DirectionalLight::DirectionalLight(float x, float y, float z, float r, float g,
-    float b) :
-    dir(Vector(x, y, z)), color(Color(r, g, b)) {
+    float b) : color(Color(r, g, b)) {
+  dir << x, y, z;
 }
 
 DirectionalLight::~DirectionalLight() {
@@ -26,7 +23,7 @@ void DirectionalLight::generateLightRay(const LocalGeo &local, Ray *lray,
     Color *lcolor) {
   float epsilon = 0.001f;
 
-  Vector direction = dir.normalize();
+  Vector direction = dir.normalized();
   // Offset the position to prevent self-intersection.
   Point position = local.pos + direction * epsilon;
 

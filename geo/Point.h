@@ -8,19 +8,8 @@
 #ifndef GEOM_POINT_H_
 #define GEOM_POINT_H_
 
-class Vector;
+#include <Eigen/Dense>
 
-class Point {
-public:
-  float x, y, z;
-  Point();
-  Point(float x, float y, float z);
-
-  Point operator+(const Vector &v) const;
-  Point operator-(const Vector &v) const;
-  Vector operator-(const Point &p) const;
-  Point operator-() const;
-  const float operator[](int i) const;
-};
+typedef Eigen::Vector3f Point;
 
 #endif /* GEOM_POINT_H_ */

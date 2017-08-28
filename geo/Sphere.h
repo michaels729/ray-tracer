@@ -8,10 +8,10 @@
 #ifndef SPHERE_H_
 #define SPHERE_H_
 
+#include "LocalGeo.h"
 #include "Point.h"
+#include "Ray.h"
 #include "Shape.h"
-
-struct LocalGeo;
 
 class Sphere: public Shape {
 private:

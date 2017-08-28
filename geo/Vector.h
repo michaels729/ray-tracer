@@ -8,25 +8,8 @@
 #ifndef GEOM_VECTOR_H_
 #define GEOM_VECTOR_H_
 
-class Vector {
-public:
-  float x, y, z;
+#include <Eigen/Dense>
 
-  Vector();
-  Vector(float x, float y, float z);
-  Vector(const Vector &v);
-
-  Vector operator+(const Vector &v) const;
-  Vector operator-() const;
-  Vector operator-(const Vector &v) const;
-  Vector operator*(const Vector &v) const;
-  Vector operator*(const float n) const;
-  Vector operator/(const float n) const;
-  const float operator[](int i) const;
-
-  float dot(const Vector &v) const;
-  float magnitude() const;
-  Vector normalize() const;
-};
+typedef Eigen::Vector3f Vector;
 
 #endif /* GEOM_VECTOR_H_ */

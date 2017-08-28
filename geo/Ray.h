@@ -11,9 +11,6 @@
 #include "Point.h"
 #include "Vector.h"
 
-class Point;
-class Vector;
-
 // It represent the ray ray(t) = pos + t*dir, where t_min <= t <= t_max
 struct Ray {
   Point pos;

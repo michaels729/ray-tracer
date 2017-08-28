@@ -9,7 +9,9 @@
 #define POINTLIGHT_H_
 
 #include "../color/Color.h"
+#include "../geo/LocalGeo.h"
 #include "../geo/Point.h"
+#include "../geo/Ray.h"
 #include "Light.h"
 
 class PointLight: public Light {

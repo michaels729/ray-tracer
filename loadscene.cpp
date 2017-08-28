@@ -12,7 +12,6 @@
 #include "Film.h"
 #include "geo/AggregatePrimitive.h"
 #include "geo/GeometricPrimitive.h"
-#include "geo/Matrix.h"
 #include "geo/Point.h"
 #include "geo/Sphere.h"
 #include "geo/Transformation.h"
@@ -25,7 +24,8 @@
 #include "RayTracer.h"
 #include "Scene.h"
 
-void rightMultiply(const Matrix & M, std::stack<Matrix> &transfstack) {
+void rightMultiply(const Matrix & M,
+    std::stack<Matrix, std::deque<Matrix, Eigen::aligned_allocator<Matrix>>> &transfstack) {
   Matrix &T = transfstack.top();
   T = T * M;
 }
@@ -66,8 +66,9 @@ void loadScene(std::string file) {
     std::cout << "Unable to open file" << std::endl;
   } else {
     std::string line;
-    std::stack<Matrix> transfstack;
-    transfstack.push(Matrix(1.0));
+    std::stack<Matrix, std::deque<Matrix, Eigen::aligned_allocator<Matrix>>> transfstack;
+    Matrix identity = Matrix::Identity();
+    transfstack.push(identity);
 
     while (inpfile.good()) {
       std::vector<std::string> splitline;
@@ -173,7 +174,8 @@ void loadScene(std::string file) {
         float x = atof(splitline[1].c_str());
         float y = atof(splitline[2].c_str());
         float z = atof(splitline[3].c_str());
-        Point *vertex = new Point(x, y , z);
+        Point *vertex = new Point;
+        *vertex << x, y, z;
         vertices.push_back(vertex);
       }
       //vertexnormal x y z nx ny nz
@@ -240,7 +242,7 @@ void loadScene(std::string file) {
         float y = atof(splitline[2].c_str());
         float z = atof(splitline[3].c_str());
         // Update top of matrix stack
-        rightMultiply(Matrix::translate(x, y, z), transfstack);
+        rightMultiply(translate(x, y, z), transfstack);
       }
       //rotate x y z angle
       //  Rotate by angle (in degrees) about the given axis as in OpenGL.
@@ -251,7 +253,7 @@ void loadScene(std::string file) {
         float angleDegrees = atof(splitline[4].c_str());
         Vector axis = Vector(x, y, z);
         // Update top of matrix stack
-        rightMultiply(Matrix::rotate(angleDegrees, axis), transfstack);
+        rightMultiply(rotate(angleDegrees, axis), transfstack);
       }
       //scale x y z
       //  Scale by the corresponding amount in each axis (a non-uniform scaling).
@@ -260,7 +262,7 @@ void loadScene(std::string file) {
         float y = atof(splitline[2].c_str());
         float z = atof(splitline[3].c_str());
         // Update top of matrix stack
-        rightMultiply(Matrix::scale(x, y, z), transfstack);
+        rightMultiply(scale(x, y, z), transfstack);
       }
       //pushTransform
       //  Push the current modeling transform on the stack as in OpenGL. 

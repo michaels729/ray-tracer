@@ -8,12 +8,12 @@
 #ifndef LOCALGEO_H_
 #define LOCALGEO_H_
 
-#include "Normal.h"
 #include "Point.h"
+#include "Vector.h"
 
 struct LocalGeo {
   Point pos;
-  Normal normal;
+  Vector normal;
 };
 
 #endif /* LOCALGEO_H_ */

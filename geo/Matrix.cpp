@@ -7,185 +7,47 @@
 
 #include "Matrix.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <cmath>
 
-#include "Point.h"
-#include "Vector.h"
-
-Matrix::Matrix() :
-    Matrix(1) {
-}
-
-Matrix::Matrix(float a) :
-    Matrix(a, 0, 0, 0,
-           0, a, 0, 0,
-           0, 0, a, 0,
-           0, 0, 0, a) {
-}
-
-Matrix::Matrix(float a, float b, float c, float d, float e, float f, float g,
-    float h, float i) :
-    Matrix(a, b, c, 0,
-           d, e, f, 0,
-           g, h, i, 0,
-           0, 0, 0, 1) {
-}
-
-Matrix::Matrix(float a, float b, float c, float d, float e, float f, float g,
-    float h, float i, float j, float k, float l, float m, float n, float o,
-    float p) :
-    mat { { a, b, c, d }, { e, f, g, h }, { i, j, k, l }, { m, n, o, p } } {
-}
-
-Matrix::Matrix(float arr[][4]) :
-    Matrix(arr[0][0], arr[0][1], arr[0][2], arr[0][3],
-           arr[1][0], arr[1][1], arr[1][2], arr[1][3],
-           arr[2][0], arr[2][1], arr[2][2], arr[2][3],
-           arr[3][0], arr[3][1], arr[3][2], arr[3][3]) {
-}
-
-Matrix Matrix::operator+(const Matrix &m) const {
-  float result[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      result[i][j] = mat[i][j] + m[i][j];
-    }
-  }
-  return Matrix(result);
-}
-
-Matrix Matrix::operator-(const Matrix &m) const {
-  float result[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      result[i][j] = mat[i][j] - m[i][j];
-    }
-  }
-  return Matrix(result);
-}
-
-Matrix Matrix::operator-() const {
-  float result[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      result[i][j] = -mat[i][j];
-    }
-  }
-  return Matrix(result);
-}
-
-Matrix Matrix::operator*(const float n) const {
-  float result[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      result[i][j] = mat[i][j] * n;
-    }
-  }
-  return Matrix(result);
-}
-
-Point Matrix::operator *(const Point& p) const {
-  float arr[4];
-  for (int i = 0; i < 4; ++i) {
-    float value = 0;
-    for (int j = 0; j < 4; ++j) {
-      value += mat[i][j] * p[j];
-    }
-    arr[i] = value;
-  }
-  return Point(arr[0], arr[1], arr[2]);
-}
-
-Vector Matrix::operator *(const Vector& v) const {
-  float arr[4];
-  for (int i = 0; i < 4; ++i) {
-    float value = 0;
-    for (int j = 0; j < 4; ++j) {
-      value += mat[i][j] * v[j];
-    }
-    arr[i] = value;
-  }
-  return Vector(arr[0], arr[1], arr[2]);
-}
-
-Matrix Matrix::operator*(const Matrix &m) const {
-  float result[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      result[i][j] = 0;
-      for (int k = 0; k < 4; ++k) {
-        result[i][j] += mat[i][k] * m[k][j];
-      }
-    }
-  }
-  return Matrix(result);
-}
-
-const float* Matrix::operator[](int i) const {
-  return mat[i];
-}
-
-Matrix Matrix::transpose() const {
-  float transpose[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      transpose[i][j] = mat[j][i];
-    }
-  }
-  return Matrix(transpose);
-}
-
-Matrix Matrix::inverse() const {
-  float flatMat[16];
-  int i = 0;
-  for (int x = 0; x < 4; ++x) {
-    for (int y = 0; y < 4; ++y) {
-      flatMat[i] = mat[x][y];
-      i++;
-    }
-  }
-  // Even though glm uses column-major matrices instead of row-major matrices,
-  // we can still compute inverse without using transpose because
-  // transpose(inverse(M)) == inverse(transpose(M)). This means that
-  // transpose(inverse(transpose(M))) == transpose(transpose(inverse(M))), so
-  // transpose(inverse(transpose(M))) == inverse(M).
-  glm::mat4 glmMatInv = glm::inverse(glm::make_mat4(flatMat));
-  float inv[4][4];
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 4; ++j) {
-      inv[i][j] = glmMatInv[i][j];
-    }
-  }
-  return Matrix(inv);
-}
-
-Matrix Matrix::rotate(const float degrees, const Vector &axis) {
+Matrix rotate(const float degrees, const Vector &axis) {
   const float radians = degrees * M_PI / 180;
   const float cosRadians = cos(radians);
   const float sinRadians = sin(radians);
-  glm::mat3 aaT = glm::mat3(axis.x * axis.x, axis.x * axis.y, axis.x * axis.z,
-                            axis.y * axis.x, axis.y * axis.y, axis.y * axis.z,
-                            axis.z * axis.x, axis.z * axis.y, axis.z * axis.z);
-  glm::mat3 aStar = glm::mat3(0, axis.z, -axis.y,
-                              -axis.z, 0, axis.x,
-                              axis.y, -axis.x, 0);
+  Eigen::Matrix3f aaT;
+  aaT << axis[0] * axis[0], axis[0] * axis[1], axis[0] * axis[2],
+         axis[1] * axis[0], axis[1] * axis[1], axis[1] * axis[2],
+         axis[2] * axis[0], axis[2] * axis[1], axis[2] * axis[2];
+  Eigen::Matrix3f aStar;
+  aStar << 0, axis[2], -axis[1],
+           -axis[2], 0, axis[0],
+           axis[1], -axis[0], 0;
 
-  glm::mat3 result = cosRadians * glm::mat3(1)
+  Eigen::Matrix3f result = cosRadians * Eigen::Matrix3f::Identity()
       + (1 - cosRadians) * aaT
       + sinRadians * aStar;
 
-  return Matrix(result[0][0], result[1][0], result[2][0],
-                result[0][1], result[1][1], result[2][1],
-                result[0][2], result[1][2], result[2][2]);
+  Matrix rotation;
+  rotation << result(0, 0), result(1, 0), result(2, 0), 0,
+              result(0, 1), result(1, 1), result(2, 1), 0,
+              result(0, 2), result(1, 2), result(2, 2), 0,
+              0           , 0           , 0           , 1;
+  return rotation;
 }
 
-Matrix Matrix::translate(const float& tx, const float& ty, const float& tz) {
-  return Matrix(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
+Matrix translate(const float& tx, const float& ty, const float& tz) {
+  Matrix translation;
+  translation << 1, 0, 0, tx,
+                 0, 1, 0, ty,
+                 0, 0, 1, tz,
+                 0, 0, 0, 1;
+  return translation;
 }
 
-Matrix Matrix::scale(const float& sx, const float& sy, const float& sz) {
-  return Matrix(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1);
+Matrix scale(const float& sx, const float& sy, const float& sz) {
+  Matrix sc;
+  sc << sx, 0, 0, 0,
+        0, sy, 0, 0,
+        0, 0, sz, 0,
+        0, 0, 0, 1;
+  return sc;
 }

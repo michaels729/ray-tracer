@@ -9,17 +9,16 @@
 #define CAMERA_H_
 
 #include "geo/Point.h"
+#include "geo/Ray.h"
 #include "geo/Vector.h"
-
-struct Ray;
-class Sample;
+#include "Sample.h"
 
 class Camera {
 private:
-  const Point eye, center;
-  const Vector upinit;
+  Point eye, center;
+  Vector upinit;
   const float fovy;
-  const Vector w, u, v;
+  Vector w, u, v;
 
 public:
   Camera(float lookfromx, float lookfromy, float lookfromz, float lookatx,
